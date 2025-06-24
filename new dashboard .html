@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pascal Kaunda Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function handleLogin() {
+      const password = prompt("Enter password:");
+      if (password === "Pascal Kunda") {
+        alert("Access granted! Welcome.");
+      } else {
+        alert("Incorrect password. Access denied.");
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-tr from-purple-200 via-blue-100 to-pink-200 h-screen overflow-hidden m-0 p-0 relative">
+
+  <!-- Bottom Left Corner Label -->
+  <div class="absolute bottom-1 left-4 text-xs text-gray-600 z-10">
+    Pascal Kaunda ©2025
+  </div>
+
+  <!-- Main Content Section -->
+  <div class="bg-white w-full h-full flex flex-col items-center justify-start text-center border-t-8 border-blue-800 px-4 pt-4 pb-2 overflow-hidden">
+
+    <!-- Welcome Heading -->
+    <h2 class="text-lg font-bold text-black mb-1">
+      Welcome to Mr Distinctions Academy's Website.
+    </h2>
+
+    <!-- Quoted Subtext -->
+    <p class="italic font-bold text-blue-700 text-sm mb-4 tracking-wide">
+      "We are here to simplify your academic journey!"
+    </p>
+
+    <!-- Subjects Section -->
+    <div class="bg-blue-50 rounded-xl p-3 w-full max-w-md mb-3">
+      <h3 class="text-base font-semibold text-blue-900 mb-1 uppercase">WE ARE SPECIALISE IN:</h3>
+      <h4 class="text-sm font-semibold text-red-600 mb-2 uppercase tracking-wide">SUBJECTS:</h4>
+      <ul class="text-blue-700 text-sm space-y-1">
+        <li>🧬 Biology</li>
+        <li>🎓 Mathematics</li>
+        <li>📘 English Language</li>
+        <li>🔬 Chemistry and Physics (Science)</li>
+      </ul>
+
+      <!-- Tips Section -->
+      <h4 class="text-sm font-semibold text-red-600 mt-3 uppercase tracking-wide">TIPS:</h4>
+      <ul class="text-blue-700 text-sm mt-1 space-y-1 text-left list-none">
+        <li>📚 How to study smart</li>
+        <li>⏱️ How to revise quickly</li>
+        <li>🗓️ Things to know a week before the exams</li>
+        <li>⚠️ Do's and don'ts during the exam period</li>
+        <li class="whitespace-nowrap">📝 How to write the exam without making mistakes</li>
+      </ul>
+    </div>
+
+    <!-- Log In Button -->
+    <div class="text-center mb-3">
+      <button onclick="handleLogin()" class="inline-block px-4 py-2 bg-black text-white text-sm font-semibold rounded-full shadow-md hover:bg-blue-800 transition duration-300">
+        Log In
+      </button>
+    </div>
+
+    <!-- Social Icons Row -->
+    <div class="flex justify-center items-center gap-10">
+      <!-- WhatsApp Icon -->
+      <a href="https://wa.me/260976975898" target="_blank" aria-label="WhatsApp"
+         class="hover:scale-110 transition-transform duration-300 italic">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png"
+             alt="WhatsApp" class="w-6 h-6 rounded-full" />
+      </a>
+
+      <!-- YouTube Icon -->
+      <a href="https://youtube.com/@mrdistinctionsacademy?si=vxIW1bgkIEgKMn_s" target="_blank" aria-label="YouTube"
+         class="hover:scale-105 transition-transform duration-300 italic">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
+             alt="YouTube" class="w-16 h-auto" />
+      </a>
+
+      <!-- Email Icon -->
+      <a href="mailto:pascalkaunda60@gmail.com" target="_blank" aria-label="Email"
+         class="hover:scale-110 transition-transform duration-300 italic">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 2l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</body>
+</html>
