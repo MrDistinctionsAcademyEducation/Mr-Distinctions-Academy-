@@ -3,9 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pascal Kaunda Academy</title>
+  <title>Mr Distinctions Academy</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
+    /* Common Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #c3bef0 0%, #b1dbf0 50%, #f3d2fd 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* Typing effect for welcome message */
     .typing {
       display: inline-block;
       overflow: hidden;
@@ -17,6 +27,7 @@
       from { width: 0 }
       to { width: 100% }
     }
+    /* Loading dots animation */
     .loading-dots span {
       animation: blink 1.5s infinite;
     }
@@ -26,29 +37,34 @@
       0%, 80%, 100% { opacity: 0 }
       40% { opacity: 1 }
     }
-  </style>
-  <script>
-    function handleLogin() {
-      const password = prompt("Enter password:");
-      const messageBox = document.getElementById("welcomeMessage");
-      if (password === "Pascal Kunda") {
-        messageBox.innerHTML = `
-          <span class="typing text-green-700 font-bold text-base">Mr Distinctions Welcomes You!</span>
-          <div class="loading-dots text-sm text-gray-600 mt-1">
-            <span>.</span><span>.</span><span>.</span>
-          </div>`;
-        messageBox.classList.remove("hidden");
-        setTimeout(() => {
-          window.location.href = "dashboard.html";
-        }, 3000);
-      } else {
-        alert("Incorrect password. Access denied.");
-      }
+
+    /* Dashboard specific */
+    .content, #tipsContent {
+      transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+      overflow: hidden;
     }
-  </script>
+    .hidden {
+      display: none !important;
+      max-height: 0 !important;
+      opacity: 0;
+      padding: 0 !important;
+      margin: 0 !important;
+      pointer-events: none;
+    }
+    .visible {
+      display: block !important;
+      max-height: 1000px;
+      opacity: 1;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      pointer-events: auto;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-tr from-purple-200 via-blue-100 to-pink-200 h-screen overflow-hidden m-0 p-0 relative">
-  <div class="bg-white w-full h-full flex flex-col items-center justify-start text-center border-t-8 border-blue-800 px-4 pt-4 pb-2 overflow-hidden">
+<body>
+
+  <!-- LOGIN SECTION -->
+  <section id="loginSection" class="bg-gradient-to-tr from-purple-200 via-blue-100 to-pink-200 h-screen flex flex-col items-center justify-start text-center border-t-8 border-blue-800 px-4 pt-4 pb-2 overflow-hidden">
     <h2 class="text-lg font-bold text-black mb-1">Welcome to Mr Distinctions Academy's Website.</h2>
     <p class="italic font-bold text-blue-700 text-sm mb-4 tracking-wide">"We are here to simplify your academic journey!"</p>
     <div class="bg-blue-50 rounded-xl p-3 w-full max-w-md mb-3">
@@ -86,7 +102,203 @@
         </svg>
       </a>
     </div>
-  </div>
-  <div class="absolute bottom-16 left-4 text-xs text-gray-600 z-10">Pascal Kaunda ©2025</div>
+    <div class="absolute bottom-16 left-4 text-xs text-gray-600 z-10">Pascal Kaunda ©2025</div>
+  </section>
+
+  <!-- DASHBOARD SECTION -->
+  <section id="dashboardSection" class="hidden text-gray-900 min-h-screen flex flex-col">
+
+    <!-- Transparent Header -->
+    <header class="bg-transparent text-white py-4 shadow-none flex justify-between items-center px-4 container mx-auto">
+      <div>
+        <h1 class="text-xl font-extrabold text-blue-900 drop-shadow-md select-none">Mr Distinctions Academy</h1>
+        <p class="text-sm italic mt-1 text-blue-700 select-none">"We are here to simply your academic journey"</p>
+      </div>
+      <button
+        id="logoutBtn"
+        onclick="handleLogout()"
+        class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-full shadow-md transition active:scale-95 focus:outline-none focus:ring-4 focus:ring-red-400"
+      >
+        Logout
+      </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-10 max-w-screen-xl">
+      <div id="subjects-container" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16"></div>
+
+      <!-- Study & Exam Tips Section -->
+      <section class="bg-white rounded-3xl shadow-2xl p-8">
+        <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-3 select-none">
+          STUDY &amp; EXAM TIPS VIDEOS
+        </h2>
+        <button
+          id="tipsBtn"
+          class="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-7 py-3 rounded-lg shadow-lg transition active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400"
+          onclick="toggleTips()"
+        >
+          View Tips Videos
+        </button>
+
+        <div id="tipsContent" class="hidden mt-8 space-y-10">
+          <div>
+            <h3 class="font-semibold text-xl text-purple-700 mb-3 select-none">💡 HOW TO STUDY SMART - VIDEOS</h3>
+            <video controls class="w-full rounded-lg border border-purple-300 shadow-md">
+              <source src="#" type="video/mp4" />
+            </video>
+          </div>
+          <div>
+            <h3 class="font-semibold text-xl text-purple-700 mb-3 select-none">⚡ HOW TO REVISE QUICKLY - VIDEOS</h3>
+            <video controls class="w-full rounded-lg border border-purple-300 shadow-md">
+              <source src="#" type="video/mp4" />
+            </video>
+          </div>
+          <div>
+            <h3 class="font-semibold text-xl text-purple-700 mb-3 select-none">📅 THINGS TO KNOW A WEEK BEFORE EXAMS - VIDEOS</h3>
+            <video controls class="w-full rounded-lg border border-purple-300 shadow-md">
+              <source src="#" type="video/mp4" />
+            </video>
+          </div>
+          <div>
+            <h3 class="font-semibold text-xl text-purple-700 mb-3 select-none">🚫 DO'S AND DON'TS DURING EXAM PERIOD - VIDEOS</h3>
+            <video controls class="w-full rounded-lg border border-purple-300 shadow-md">
+              <source src="#" type="video/mp4" />
+            </video>
+          </div>
+          <div>
+            <h3 class="font-semibold text-xl text-purple-700 mb-3 select-none">✍️ HOW TO WRITE AN EXAM WITH MINIMUM MISTAKES - VIDEOS</h3>
+            <video controls class="w-full rounded-lg border border-purple-300 shadow-md">
+              <source src="#" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white text-center py-6 mt-16 select-none shadow-inner">
+      <p class="text-sm">&copy; 2025 Mr Distinctions Academy. All rights reserved.</p>
+    </footer>
+  </section>
+
+  <script>
+    // LOGIN HANDLER
+    function handleLogin() {
+      const password = prompt("Enter password:");
+      const messageBox = document.getElementById("welcomeMessage");
+      if (password === "Pascal Kunda") {
+        messageBox.innerHTML = `
+          <span class="typing text-green-700 font-bold text-base">Mr Distinctions Welcomes You!</span>
+          <div class="loading-dots text-sm text-gray-600 mt-1">
+            <span>.</span><span>.</span><span>.</span>
+          </div>`;
+        messageBox.classList.remove("hidden");
+
+        setTimeout(() => {
+          // Hide login, show dashboard
+          document.getElementById('loginSection').classList.add('hidden');
+          document.getElementById('dashboardSection').classList.remove('hidden');
+          initializeDashboard();
+        }, 3000);
+      } else {
+        alert("Incorrect password. Access denied.");
+      }
+    }
+
+    // LOGOUT HANDLER
+    function handleLogout() {
+      document.getElementById('dashboardSection').classList.add('hidden');
+      document.getElementById('loginSection').classList.remove('hidden');
+
+      // Clear welcome message and reset it hidden
+      const messageBox = document.getElementById("welcomeMessage");
+      messageBox.innerHTML = '';
+      messageBox.classList.add("hidden");
+
+      // Hide tips content if open
+      const tipsContent = document.getElementById('tipsContent');
+      tipsContent.classList.add('hidden');
+      tipsContent.classList.remove('visible');
+    }
+
+    // DASHBOARD LOGIC
+    const subjects = ['English Language', 'Mathematics', 'Chemistry', 'Physics', 'Biology'];
+    const container = document.getElementById('subjects-container');
+
+    function initializeDashboard() {
+      // Clear container (in case of reload)
+      container.innerHTML = '';
+      subjects.forEach(subject => {
+        const section = document.createElement('section');
+        section.className = 'bg-white rounded-3xl shadow-2xl p-6';
+
+        section.innerHTML = `
+          <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-2 select-none">${subject}</h2>
+
+          <div class="bg-blue-50 p-4 rounded-xl border border-blue-300 mb-6">
+            <h3 class="text-xl font-semibold text-blue-700 mb-3 select-none">🎥 Video Lessons</h3>
+            <button onclick="toggleContent(this)" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
+              View Videos
+            </button>
+            <div class="content hidden mt-4">
+              <video controls class="rounded-lg w-full border border-blue-400 shadow-lg max-h-64">
+                <source src="#" type="video/mp4" />
+              </video>
+              <p class="text-gray-600 mt-2 select-none">Watch and learn from selected lessons.</p>
+            </div>
+          </div>
+
+          <div class="bg-green-50 p-4 rounded-xl border border-green-300 mb-6">
+            <h3 class="text-xl font-semibold text-green-700 mb-3 select-none">📚 Documents</h3>
+            <button onclick="toggleContent(this)" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
+              View Documents
+            </button>
+            <div class="content hidden mt-4">
+              <ul class="list-disc ml-6 mt-1 text-gray-700 space-y-1">
+                <li><a href="#" class="hover:underline text-green-800">Topic 1 Notes.pdf</a></li>
+                <li><a href="#" class="hover:underline text-green-800">Summary Slides.pptx</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-300">
+            <h3 class="text-xl font-semibold text-yellow-700 mb-3 select-none">🧠 Quizzes</h3>
+            <button onclick="toggleContent(this)" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
+              View Quizzes
+            </button>
+            <div class="content hidden mt-4">
+              <p class="text-gray-700 mb-3 select-none">Test your understanding after lessons.</p>
+              <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-5 py-2 rounded-md shadow-md">
+                Start Quiz
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(section);
+      });
+    }
+
+    function toggleContent(button) {
+      const content = button.nextElementSibling;
+      if(content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        content.classList.add('visible');
+      } else {
+        content.classList.remove('visible');
+        content.classList.add('hidden');
+      }
+    }
+
+    function toggleTips() {
+      const tipsContent = document.getElementById('tipsContent');
+      if(tipsContent.classList.contains('hidden')) {
+        tipsContent.classList.remove('hidden');
+        tipsContent.classList.add('visible');
+      } else {
+        tipsContent.classList.remove('visible');
+        tipsContent.classList.add('hidden');
+      }
+    }
+  </script>
 </body>
 </html>
