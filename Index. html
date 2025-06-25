@@ -10,7 +10,6 @@
       const password = prompt("Enter password:");
       if (password === "Pascal Kunda") {
         alert("Access granted! Welcome.");
-        window.location.href = "dashboard.html"; // 🔗 Redirect
       } else {
         alert("Incorrect password. Access denied.");
       }
@@ -48,6 +47,7 @@
         <li>🔬 Chemistry and Physics (Science)</li>
       </ul>
 
+      <!-- Tips Section -->
       <h4 class="text-sm font-semibold text-red-600 mt-3 uppercase tracking-wide">TIPS:</h4>
       <ul class="text-blue-700 text-sm mt-1 space-y-1 text-left list-none">
         <li>📚 How to study smart</li>
@@ -65,15 +65,25 @@
       </button>
     </div>
 
-    <!-- Social Icons -->
+    <!-- Social Icons Row -->
     <div class="flex justify-center items-center gap-10">
-      <a href="https://wa.me/260976975898" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="WhatsApp" class="w-6 h-6 rounded-full" />
+      <!-- WhatsApp Icon -->
+      <a href="https://wa.me/260976975898" target="_blank" aria-label="WhatsApp"
+         class="hover:scale-110 transition-transform duration-300 italic">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png"
+             alt="WhatsApp" class="w-6 h-6 rounded-full" />
       </a>
-      <a href="https://youtube.com/@mrdistinctionsacademy?si=vxIW1bgkIEgKMn_s" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube" class="w-16 h-auto" />
+
+      <!-- YouTube Icon -->
+      <a href="https://youtube.com/@mrdistinctionsacademy?si=vxIW1bgkIEgKMn_s" target="_blank" aria-label="YouTube"
+         class="hover:scale-105 transition-transform duration-300 italic">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
+             alt="YouTube" class="w-16 h-auto" />
       </a>
-      <a href="mailto:pascalkaunda60@gmail.com" target="_blank">
+
+      <!-- Email Icon -->
+      <a href="mailto:pascalkaunda60@gmail.com" target="_blank" aria-label="Email"
+         class="hover:scale-110 transition-transform duration-300 italic">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
           <path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 2l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/>
         </svg>
