@@ -251,8 +251,10 @@
 <audio id="clapSound" src="https://www.soundjay.com/human/applause-01.mp3" preload="auto"></audio>
 
 <script>
+  // Global variables
   const subjects = ['English Language', 'Mathematics', 'Chemistry', 'Physics', 'Biology'];
   const container = document.getElementById('subjects-container');
+  let currentScore = 0;
 
   // Quiz questions data
   const questions = [
@@ -445,7 +447,7 @@
     }
   ];
 
+  // Main functions
   function handleLogin() {
     const password = prompt("Enter password:");
-    const messageBox = document.getElementById("welcomeMessage");
-    if (password === "Pascal Ku
+    const messageBox = document
