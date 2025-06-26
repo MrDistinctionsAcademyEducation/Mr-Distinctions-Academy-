@@ -54,6 +54,40 @@
       padding-bottom: 1rem;
       pointer-events: auto;
     }
+    /* Video box styling as the first one */
+    .video-box {
+      border: 2px solid #3b82f6; /* Tailwind blue-400 */
+      border-radius: 1rem; /* rounded-xl */
+      box-shadow: 0 4px 6px rgba(59, 130, 246, 0.4); /* blue shadow */
+      overflow: hidden;
+      max-width: 100%;
+      margin-bottom: 1rem;
+    }
+    /* Responsive 16:9 aspect ratio container */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 1rem;
+    }
+    /* Titles small, bold, red */
+    .video-title {
+      font-size: 0.875rem; /* text-sm */
+      font-weight: 700; /* font-bold */
+      color: #dc2626; /* red-600 */
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
@@ -216,14 +250,31 @@
 
       let videoContent = '';
       if (subject === 'Physics') {
+        // Show 2 videos in styled boxes as requested
         videoContent = `
-          <div class="grid grid-cols-1 gap-4 mt-4">
-            <div class="w-full aspect-video border-2 border-blue-400 rounded-xl overflow-hidden shadow-md">
-              <iframe class="w-full h-full" src="https://www.youtube.com/embed/aq0VibhvuSQ?si=Be8zVeDZbbAIsQUy"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-              <p class="text-sm font-bold text-center text-blue-700 mt-1">NEWTON FIRST LAW OF MOTION MADE BY MR DISTINCTIONS</p>
+          <div class="mt-4 space-y-6">
+            <div class="video-box">
+              <div class="video-wrapper">
+                <iframe
+                  src="https://www.youtube.com/embed/aq0VibhvuSQ?si=Be8zVeDZbbAIsQUy"
+                  title="Newton First Law of Motion"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+                </iframe>
+              </div>
+              <p class="video-title">NEWTON FIRST LAW OF MOTION MADE BY MR DISTINCTIONS</p>
+            </div>
+
+            <div class="video-box">
+              <div class="video-wrapper">
+                <iframe
+                  src="https://www.youtube.com/embed/taYezUWpPTc"
+                  title="Newton Second Law of Motion"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+                </iframe>
+              </div>
+              <p class="video-title">NEWTON SECOND LAW OF MOTION MADE BY MR DISTINCTIONS</p>
             </div>
           </div>
         `;
