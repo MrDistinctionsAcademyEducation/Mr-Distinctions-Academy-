@@ -1,4 +1,4 @@
-q<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -104,6 +104,42 @@ q<!DOCTYPE html>
       width: 24px;
       height: 24px;
     }
+    /* Quiz styles */
+    .correct { color: #16a34a; font-weight: bold; }
+    .wrong { color: #dc2626; font-weight: bold; }
+    .question-card { 
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    .question-card.correct-answer {
+      border-left-color: #16a34a;
+      background-color: #f0fdf4;
+    }
+    .question-card.wrong-answer {
+      border-left-color: #dc2626;
+      background-color: #fef2f2;
+    }
+    .quiz-container {
+      max-width: 4xl;
+      margin: 0 auto;
+      background: white;
+      padding: 1.5rem 2.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    .quiz-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -180,221 +216,236 @@ q<!DOCTYPE html>
   </footer>
 </section>
 
+<!-- REPORTED SPEECH QUIZ MODAL -->
+<div id="quizModal" class="quiz-modal hidden">
+  <div class="quiz-container bg-white rounded-xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-indigo-700">🗣️ Reported Speech Exam Questions</h2>
+      <button onclick="closeQuizModal()" class="text-gray-500 hover:text-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <p class="text-indigo-600 text-sm font-bold text-center mb-6">Transform these sentences into reported speech</p>
+    
+    <form id="quizForm" class="space-y-6"></form>
+    
+    <div id="quizScoreSection" class="mt-10 text-center hidden">
+      <div class="inline-block bg-indigo-100 px-6 py-4 rounded-full">
+        <p class="text-2xl font-bold text-indigo-700">
+          🎉 You scored <span id="scoreValue">0</span> out of <span id="totalQuestions">17</span>
+        </p>
+        <button onclick="resetQuiz()" class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+          Try Again
+        </button>
+        <button onclick="closeQuizModal()" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition ml-2">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sounds -->
+<audio id="clapSound" src="https://www.soundjay.com/human/applause-01.mp3" preload="auto"></audio>
+
 <script>
   const subjects = ['English Language', 'Mathematics', 'Chemistry', 'Physics', 'Biology'];
   const container = document.getElementById('subjects-container');
 
+  // Quiz questions data
+  const questions = [
+    {
+      "text": "He asked when the patient would be discharged.",
+      "prompt": "Begin: <strong>He asked,</strong>",
+      "options": [
+        "“When will the patient be discharged?”",
+        "“When the patient would be discharged.”",
+        "“When would the patient be discharged?”"
+      ],
+      "correct": 0,
+      "rule": "This sentence is already in direct speech and does not require conversion. It is presented as a direct quote of what he asked."
+    },
+    {
+      "text": "“I am going to punish all of you if you don't do this homework,” said the teacher.",
+      "prompt": "Begin: <strong>The teacher said that</strong>",
+      "options": [
+        "he was going to punish all of them if they didn't do that homework.",
+        "he will punish all of them if they don't do this homework.",
+        "they should do their homework to avoid punishment."
+      ],
+      "correct": 0,
+      "rule": "In reported speech, 'I am going to punish' changes to 'he was going to punish' because it is reported in the past. 'You' changes to 'them' to reflect the change in perspective, and 'this' changes to 'that' for the same reason."
+    },
+    {
+      "text": "“I have never been tempted to steal,” she said, “because I am here to work.”",
+      "prompt": "Begin: <strong>She said that</strong>",
+      "options": [
+        "she had never been tempted to steal because she was there to work.",
+        "she has never been tempted to steal because she is here to work.",
+        "she never steals when she works."
+      ],
+      "correct": 0,
+      "rule": "In reported speech, 'I have never been tempted' changes to 'she had never been tempted' because it is reported in the past and requires the past perfect tense. 'I am' changes to 'she was' for the same reason."
+    },
+    {
+      "text": "“We are so far behind that I don't think we will pass the examination,” said Mary.",
+      "prompt": "Begin: <strong>Mary complained that</strong>",
+      "options": [
+        "they were so far behind that she didn't think they would pass the examination.",
+        "we are so far behind that I don't think we will pass the examination.",
+        "they are behind and might fail the exam."
+      ],
+      "correct": 0,
+      "rule": "In reported speech, 'we are' changes to 'they were' because it is reported in the past. 'I don't think' changes to 'she didn't think' for the same reason. 'Will pass' changes to 'would pass' because it is reported in the past."
+    },
+    {
+      "text": "He told Mary that Mulenga was back.",
+      "prompt": "Begin: <strong>“</strong> … <strong>,” he said.</strong>",
+      "options": [
+        "“Mulenga is back,”",
+        "“Mulenga was back,”",
+        "“That Mulenga is back,”"
+      ],
+      "correct": 0,
+      "rule": "This sentence is already in direct speech and does not require conversion. It is presented as a direct quote of what he said."
+    },
+    {
+      "text": "The teacher asked Jack if Elizabeth was telling the truth.",
+      "prompt": "Begin: <strong>The teacher asked Jack,</strong>",
+      "options": [
+        "“Is Elizabeth telling the truth?”",
+        "“Was Elizabeth telling the truth?”",
+        "“Does Elizabeth tell the truth?”"
+      ],
+      "correct": 0,
+      "rule": "This sentence is already in direct speech and does not require conversion. It is presented as a direct quote of what the teacher asked."
+    },
+    {
+      "text": "“I will have done this homework by tomorrow, sir,” he told his teacher.",
+      "prompt": "Begin: <strong>He told his teacher that</strong>",
+      "options": [
+        "he would have done that homework by the following day.",
+        "he will have done this homework by tomorrow.",
+        "he had done the homework the next day."
+      ],
+      "correct": 0,
+      "rule": "In reported speech, 'I will have done' changes to 'he would have done' because it is reported in the past. 'Tomorrow' changes to 'the following day' to maintain the correct time reference from his past perspective."
+    },
+    {
+      "text": "“I have broken my walking stick,” complained the old man.",
+      "prompt": "Begin: <strong>The old man complained that</strong>",
+      "options": [
+        "he had broken his walking stick.",
+        "he has broken his walking stick.",
+        "his walking stick was broken."
+      ],
+      "correct": 0,
+      "rule": "In reported speech, 'I have broken' changes to 'he had broken' because it is reported in the past and requires the past perfect tense."
+    },
+    {
+      "text": "“My daughter will join her brother in Kasama next year,” he said.",
+      "prompt": "Begin: <strong>He said that</strong>",
+      "options": [
+        "his daughter would join her brother in Kasama the following year.",
+        "his daughter will join her brother in Kasama next year.",
+        "his daughter joins her brother in Kasama next year."
+      ],
+      "correct": 0,
+      "rule": "When converting direct speech to reported speech, the future tense 'will join' changes to 'would join' because it is reported in the past. Additionally, 'next year' becomes 'the following year' to maintain the correct time reference from the speaker's past perspective."
+    },
+    {
+      "text": "“How much did this dress cost you?” Joseph asked Mary.",
+      "prompt": "Begin: <strong>Joseph asked Mary</strong>",
+      "options": [
+        "how much that dress had cost her.",
+        "how much did that dress cost her.",
+        "how much this dress cost her."
+      ],
+      "correct": 0,
+      "rule": "In reported speech, questions are typically converted into statements. The question 'How much did this dress cost you?' changes to 'how much that dress had cost her.' The verb tense changes from past simple 'did cost' to past perfect 'had cost' because the question is being reported after it was asked. 'This' changes to 'that' to reflect the change in perspective."
+    },
+    {
+      "text": "“Put down your pen, John,” shouted the teacher.",
+      "prompt": "Begin: <strong>The teacher commanded John</strong>",
+      "options": [
+        "to put down his pen.",
+        "put down your pen.",
+        "that he puts down his pen."
+      ],
+      "correct": 0,
+      "rule": "Commands or imperatives in direct speech are reported using verbs like 'commanded,' 'ordered,' or 'told' followed by the infinitive form of the verb. 'Put down your pen' becomes 'to put down his pen' in reported speech."
+    },
+    {
+      "text": "The teacher said that he wanted me to tell him the truth or he would slap me.",
+      "prompt": "Begin: <strong>The teacher said,</strong>",
+      "options": [
+        "“Tell me the truth or I will slap you.”",
+        "“I want you to tell me the truth or I will slap you.”",
+        "“Tell the truth or be slapped.”"
+      ],
+      "correct": 0,
+      "rule": "This sentence is already in direct speech and does not require conversion. It is presented as a direct quote of what the teacher said."
+    },
+    {
+      "text": "“I don't know if my friends will come tomorrow,” John said.",
+      "prompt": "Begin: <strong>John wondered</strong>",
+      "options": [
+        "if his friends would come the next day.",
+        "if his friends will come tomorrow.",
+        "whether his friends would come tomorrow."
+      ],
+      "correct": 0,
+      "rule": "The phrase 'I don't know' indicates uncertainty, which is reported using 'wondered.' The future tense 'will come' changes to 'would come' in reported speech. 'Tomorrow' becomes 'the next day' to maintain the correct time reference from John's past perspective."
+    },
+    {
+      "text": "Michael asked Namakau where her younger sister was.",
+      "prompt": "Begin: <strong>“</strong> … <strong>,” asked Michael.</strong>",
+      "options": [
+        "“Where is your younger sister?”",
+        "“Where was your younger sister?”",
+        "“Where your younger sister is?”"
+      ],
+      "correct": 0,
+      "rule": "This sentence is already in direct speech and does not require conversion. It is presented as a direct quote of what Michael Namakau asked."
+    },
+    {
+      "text": "Mr Chama said, “Son, wake up early tomorrow morning.”",
+      "prompt": "Begin: <strong>Mr Chama reminded</strong>",
+      "options": [
+        "his son to wake up early the next morning.",
+        "his son that he must wake up early tomorrow.",
+        "his son to wake early in the morning."
+      ],
+      "correct": 0,
+      "rule": "The verb 'reminded' is used to report advice or reminders. 'Wake up early tomorrow morning' becomes 'to wake up early the next morning' in reported speech. 'Tomorrow' changes to 'the next' to reflect the change in time perspective."
+    },
+    {
+      "text": "“I will write the homework tomorrow,” said Doreen.",
+      "prompt": "Begin: <strong>Doreen said that</strong>",
+      "options": [
+        "she would write the homework the next day.",
+        "she will write the homework tomorrow.",
+        "she writes the homework tomorrow."
+      ],
+      "correct": 0,
+      "rule": "In reported speech, 'I will write' changes to 'she would write' because it is reported in the past. 'Tomorrow' becomes 'the next day' to maintain the correct time reference from Doreen's past perspective."
+    },
+    {
+      "text": "“I am not responsible for this loss in any way,” said the goalkeeper.",
+      "prompt": "Begin: <strong>The goalkeeper said that</strong>",
+      "options": [
+        "he was not responsible for that loss in any way.",
+        "he is not responsible for this loss in any way.",
+        "he had not been responsible for the loss."
+      ],
+      "correct": 0,
+      "rule": "In reported speech, 'I am not responsible' changes to 'he was not responsible' because it is reported in the past. 'This' changes to 'that' to reflect the change in perspective. The phrase remains largely unchanged as it is a statement of fact being reported."
+    }
+  ];
+
   function handleLogin() {
     const password = prompt("Enter password:");
     const messageBox = document.getElementById("welcomeMessage");
-    if (password === "Pascal Kunda") {
-      messageBox.innerHTML = `<span class="typing text-green-700 font-bold text-base">Mr Distinctions Welcomes You!</span><div class="loading-dots text-sm text-gray-600 mt-1"><span>.</span><span>.</span><span>.</span></div>`;
-      messageBox.classList.remove("hidden");
-      setTimeout(() => {
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('dashboardSection').classList.remove('hidden');
-        initializeDashboard();
-      }, 3000);
-    } else {
-      alert("Incorrect password. Access denied.");
-    }
-  }
-
-  function handleLogout() {
-    document.getElementById('dashboardSection').classList.add('hidden');
-    document.getElementById('loginSection').classList.remove('hidden');
-    const messageBox = document.getElementById("welcomeMessage");
-    messageBox.innerHTML = '';
-    messageBox.classList.add("hidden");
-    const tipsContent = document.getElementById('tipsContent');
-    tipsContent.classList.add('hidden');
-    tipsContent.classList.remove('visible');
-  }
-
-  function toggleContent(button) {
-    const content = button.nextElementSibling;
-    content.classList.toggle('hidden');
-    content.classList.toggle('visible');
-  }
-
-  function toggleTips() {
-    const tipsContent = document.getElementById('tipsContent');
-    tipsContent.classList.toggle('hidden');
-    tipsContent.classList.toggle('visible');
-  }
-
-  function initializeDashboard() {
-    container.innerHTML = '';
-    subjects.forEach(subject => {
-      const section = document.createElement('section');
-      section.className = 'bg-white rounded-3xl shadow-2xl p-6';
-
-      // Default content for all subjects
-      let videoContent = `
-        <p class="text-gray-600 select-none">Video content coming soon.</p>
-      `;
-      
-      // Documents content for each subject
-      let documentsContent = '';
-      
-      // Special content for Physics
-      if (subject === 'Physics') {
-        videoContent = `
-          <div class="space-y-6">
-            <div class="video-box">
-              <div class="video-wrapper">
-                <iframe
-                  src="https://www.youtube.com/embed/aq0VibhvuSQ?si=Be8zVeDZbbAIsQUy"
-                  title="Newton First Law"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen>
-                </iframe>
-              </div>
-              <p class="video-title">NEWTON FIRST LAW OF MOTION MADE BY MR DISTINCTIONS</p>
-            </div>
-            
-            <div class="video-box">
-              <div class="video-wrapper">
-                <iframe
-                  src="https://www.youtube.com/embed/taYezUWpPTc"
-                  title="Newton Second Law"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen>
-                </iframe>
-              </div>
-              <p class="video-title">NEWTON SECOND LAW OF MOTION MADE BY MR DISTINCTIONS</p>
-            </div>
-            
-            <div class="video-box">
-              <div class="video-wrapper">
-                <iframe
-                  src="https://www.youtube.com/embed/JSJQZDrL-H0?si=UJ_cSsH2t5ncoVgJ"
-                  title="Newton Third Law"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen>
-                </iframe>
-              </div>
-              <p class="video-title">NEWTON THIRD LAW OF MOTION MADE BY MR DISTINCTIONS</p>
-            </div>
-          </div>
-        `;
-        
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/file/d/1HAjXDU-_Y2fmfGfIVQlOsQTe6VVFYOWX/view?usp=drivesdk" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>Physics Study Materials</span>
-            </a>
-          </div>
-        `;
-      }
-      
-      // Biology documents
-      if (subject === 'Biology') {
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/drive/folders/1HEZDpBT93GPfGK5_er5pN3M26FDUdyzH" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>Biology Study Materials</span>
-            </a>
-          </div>
-        `;
-      }
-      
-      // English documents
-      if (subject === 'English Language') {
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/drive/folders/1lMmDHmkmfUH5P9uZ5USaSNe-oWdpL5vB" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>English Language Study Materials</span>
-            </a>
-          </div>
-        `;
-      }
-      
-      // Mathematics documents
-      if (subject === 'Mathematics') {
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/drive/folders/1S8PB3CAx1hmuSJy-WnC4YpTcMXA-jP-C" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>Mathematics Study Materials</span>
-            </a>
-          </div>
-        `;
-      }
-      
-      // Chemistry documents
-      if (subject === 'Chemistry') {
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/file/d/1HEX80su2RTKhzpd5lUbsPr_hUfwYUBQI/view?usp=drivesdk" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>Chemistry Study Materials</span>
-            </a>
-          </div>
-        `;
-      }
-
-      section.innerHTML = `
-        <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-2 select-none">${subject}</h2>
-
-        <div class="bg-blue-50 p-4 rounded-xl border border-blue-300 mb-6">
-          <h3 class="text-xl font-semibold text-blue-700 mb-3 select-none">🎥 Video Lessons</h3>
-          <button onclick="toggleContent(this)" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
-            View Videos
-          </button>
-          <div class="content hidden">
-            ${videoContent}
-          </div>
-        </div>
-
-        <div class="bg-purple-50 p-4 rounded-xl border border-purple-300 mb-6">
-          <h3 class="text-xl font-semibold text-purple-700 mb-3 select-none">📄 Documents</h3>
-          <button onclick="toggleContent(this)" class="bg-purple-700 hover:bg-purple-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
-            View Documents
-          </button>
-          <div class="content hidden mt-4">
-            <p class="text-gray-600 select-none mb-2">Download and read helpful study materials:</p>
-            ${documentsContent}
-          </div>
-        </div>
-
-        <div class="bg-green-50 p-4 rounded-xl border border-green-300">
-          <h3 class="text-xl font-semibold text-green-700 mb-3 select-none">📝 Exam Quiz Questions</h3>
-          <button onclick="toggleContent(this)" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
-            View Exam Quiz Questions
-          </button>
-          <div class="content hidden mt-4">
-            <p class="text-gray-600 select-none">Test your knowledge with exam quiz questions.</p>
-            <a href="#" class="text-green-600 underline text-sm block mt-2 hover:text-green-800">Start Now</a>
-          </div>
-        </div>
-      `;
-      container.appendChild(section);
-    });
-  }
-</script>
-</body>
-</html>
+    if (password === "Pascal Ku
