@@ -86,6 +86,24 @@
       margin-top: 0.5rem;
       margin-bottom: 1rem;
     }
+    .document-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background-color: #f8fafc;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      transition: all 0.2s;
+    }
+    .document-link:hover {
+      background-color: #e2e8f0;
+      transform: translateX(2px);
+    }
+    .document-icon {
+      width: 24px;
+      height: 24px;
+    }
   </style>
 </head>
 <body>
@@ -216,6 +234,9 @@
         <p class="text-gray-600 select-none">Video content coming soon.</p>
       `;
       
+      // Documents content for each subject
+      let documentsContent = '';
+      
       // Special content for Physics
       if (subject === 'Physics') {
         videoContent = `
@@ -257,6 +278,83 @@
             </div>
           </div>
         `;
+        
+        documentsContent = `
+          <div class="mt-4">
+            <a href="https://drive.google.com/file/d/1HAjXDU-_Y2fmfGfIVQlOsQTe6VVFYOWX/view?usp=drivesdk" target="_blank" class="document-link">
+              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                <path d="M14 2v6h6" fill="#34A853"/>
+                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
+              </svg>
+              <span>Physics Study Materials</span>
+            </a>
+          </div>
+        `;
+      }
+      
+      // Biology documents
+      if (subject === 'Biology') {
+        documentsContent = `
+          <div class="mt-4">
+            <a href="https://drive.google.com/drive/folders/1HEZDpBT93GPfGK5_er5pN3M26FDUdyzH" target="_blank" class="document-link">
+              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                <path d="M14 2v6h6" fill="#34A853"/>
+                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
+              </svg>
+              <span>Biology Study Materials</span>
+            </a>
+          </div>
+        `;
+      }
+      
+      // English documents
+      if (subject === 'English Language') {
+        documentsContent = `
+          <div class="mt-4">
+            <a href="https://drive.google.com/drive/folders/1lMmDHmkmfUH5P9uZ5USaSNe-oWdpL5vB" target="_blank" class="document-link">
+              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                <path d="M14 2v6h6" fill="#34A853"/>
+                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
+              </svg>
+              <span>English Language Study Materials</span>
+            </a>
+          </div>
+        `;
+      }
+      
+      // Mathematics documents
+      if (subject === 'Mathematics') {
+        documentsContent = `
+          <div class="mt-4">
+            <a href="https://drive.google.com/drive/folders/1S8PB3CAx1hmuSJy-WnC4YpTcMXA-jP-C" target="_blank" class="document-link">
+              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                <path d="M14 2v6h6" fill="#34A853"/>
+                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
+              </svg>
+              <span>Mathematics Study Materials</span>
+            </a>
+          </div>
+        `;
+      }
+      
+      // Chemistry documents
+      if (subject === 'Chemistry') {
+        documentsContent = `
+          <div class="mt-4">
+            <a href="https://drive.google.com/file/d/1HEX80su2RTKhzpd5lUbsPr_hUfwYUBQI/view?usp=drivesdk" target="_blank" class="document-link">
+              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                <path d="M14 2v6h6" fill="#34A853"/>
+                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
+              </svg>
+              <span>Chemistry Study Materials</span>
+            </a>
+          </div>
+        `;
       }
 
       section.innerHTML = `
@@ -278,8 +376,8 @@
             View Documents
           </button>
           <div class="content hidden mt-4">
-            <p class="text-gray-600 select-none">Download and read helpful PDF documents.</p>
-            <a href="#" class="text-blue-600 underline text-sm block mt-2 hover:text-blue-800">Download Notes</a>
+            <p class="text-gray-600 select-none mb-2">Download and read helpful study materials:</p>
+            ${documentsContent}
           </div>
         </div>
 
