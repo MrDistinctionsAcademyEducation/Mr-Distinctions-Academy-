@@ -1,168 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF- />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mr Distinctions Academy</title>
+  <title>Mr Distinctions Academy - Physics Videos</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #c3bef0 0%, #b1dbf0 50%, #f3d2fd 100%);
-    }
-    .content, #tipsContent {
-      transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
-      overflow: hidden;
-    }
-    .hidden {
-      max-height: 0 !important;
-      opacity: 0;
-      padding: 0 !important;
-      margin: 0 !important;
-      pointer-events: none;
-    }
-    .visible {
-      max-height: 1000px;
-      opacity: 1;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-      pointer-events: auto;
+      background-color: #f9f9f9;
     }
   </style>
 </head>
-<body class="text-gray-900 min-h-screen flex flex-col">
+<body class="text-gray-800">
 
-  <!-- Transparent Header -->
-  <header class="bg-transparent text-white py-4 shadow-none">
-    <div class="container mx-auto text-center px-4">
-      <h1 class="text-xl font-extrabold text-blue-900 drop-shadow-md select-none">Mr Distinctions Academy</h1>
-      <p class="text-sm italic mt-1 text-blue-700 select-none">"We are here to simply your academic journey"</p>
-    </div>
+  <!-- Header -->
+  <header class="bg-white shadow-md p-4 text-center">
+    <h1 class="text-3xl font-bold text-blue-700">Mr Distinctions Academy</h1>
+    <p class="text-sm text-gray-500">Empowering Learners | Smart Learning</p>
   </header>
 
-  <!-- Main Content -->
-  <main class="flex-grow container mx-auto px-4 py-10 max-w-screen-xl">
-    <div id="subjects-container" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16"></div>
+  <!-- Physics Video Section -->
+  <section class="bg-white py-10 px-4">
+    <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-center text-gray-800">PHYSICS VIDEOS</h2>
 
-    <!-- Study & Exam Tips Section -->
-    <section class="bg-white rounded-3xl shadow-2xl p-8">
-      <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-3 select-none">
-        STUDY &amp; EXAM TIPS VIDEOS
-      </h2>
-      <button
-        id="tipsBtn"
-        class="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-7 py-3 rounded-lg shadow-lg transition active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400"
-        onclick="toggleTips()"
-      >
-        View Tips Videos
-      </button>
-
-      <div id="tipsContent" class="hidden mt-8 space-y-10">
-        <div>
-          <h3 class="font-semibold text-xl text-purple-700 mb-3 select-none">💡 HOW TO STUDY SMART - VIDEOS</h3>
-          <video controls class="w-full rounded-lg border border-purple-300 shadow-md">
-            <source src="#" type="video/mp4" />
-          </video>
-        </div>
-        <div>
-          <h3 class="font-semibold text-xl text-purple-700 mb-3 select-none">⚡ HOW TO REVISE QUICKLY - VIDEOS</h3>
-          <video controls class="w-full rounded-lg border border-purple-300 shadow-md">
-            <source src="#" type="video/mp4" />
-          </video>
-        </div>
-        <div>
-          <h3 class="font-semibold text-xl text-purple-700 mb-3 select-none">📅 THINGS TO KNOW A WEEK BEFORE EXAMS - VIDEOS</h3>
-          <video controls class="w-full rounded-lg border border-purple-300 shadow-md">
-            <source src="#" type="video/mp4" />
-          </video>
-        </div>
-        <div>
-          <h3 class="font-semibold text-xl text-purple-700 mb-3 select-none">🚫 DO'S AND DON'TS DURING EXAM PERIOD - VIDEOS</h3>
-          <video controls class="w-full rounded-lg border border-purple-300 shadow-md">
-            <source src="#" type="video/mp4" />
-          </video>
-        </div>
-        <div>
-          <h3 class="font-semibold text-xl text-purple-700 mb-3 select-none">✍️ HOW TO WRITE AN EXAM WITH MINIMUM MISTAKES - VIDEOS</h3>
-          <video controls class="w-full rounded-lg border border-purple-300 shadow-md">
-            <source src="#" type="video/mp4" />
-          </video>
-        </div>
+    <div class="max-w-4xl mx-auto bg-gray-100 rounded-2xl shadow-lg p-6">
+      <div class="w-full h-64 sm:h-96">
+        <iframe 
+          class="w-full h-full rounded-xl"
+          src="https://www.youtube.com/embed/aq0VibhvuSQ" 
+          title="Physics Video"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
       </div>
-    </section>
-  </main>
+
+      <p class="mt-6 text-gray-700 text-center text-base sm:text-lg">
+        Watch this Physics tutorial to understand key concepts in motion, forces, and other core physics principles.
+      </p>
+    </div>
+  </section>
 
   <!-- Footer -->
-  <footer class="bg-blue-800 text-white text-center py-6 mt-16 select-none shadow-inner">
-    <p class="text-sm">&copy; 2025 Mr Distinctions Academy. All rights reserved.</p>
+  <footer class="bg-gray-800 text-white text-center py-4 mt-10">
+    <p>&copy; 2025 Mr Distinctions Academy. All rights reserved.</p>
   </footer>
 
-  <!-- JavaScript -->
-  <script>
-    const subjects = ['English Language', 'Mathematics', 'Chemistry', 'Physics', 'Biology'];
-    const container = document.getElementById('subjects-container');
-
-    subjects.forEach(subject => {
-      const section = document.createElement('section');
-      section.className = 'bg-white rounded-3xl shadow-2xl p-6';
-
-      section.innerHTML = `
-        <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-2 select-none">${subject}</h2>
-
-        <div class="bg-blue-50 p-4 rounded-xl border border-blue-300 mb-6">
-          <h3 class="text-xl font-semibold text-blue-700 mb-3 select-none">🎥 Video Lessons</h3>
-          <button onclick="toggleContent(this)" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
-            View Videos
-          </button>
-          <div class="content hidden mt-4">
-            <video controls class="rounded-lg w-full border border-blue-400 shadow-lg max-h-64">
-              <source src="#" type="video/mp4" />
-            </video>
-            <p class="text-gray-600 mt-2 select-none">Watch and learn from selected lessons.</p>
-          </div>
-        </div>
-
-        <div class="bg-green-50 p-4 rounded-xl border border-green-300 mb-6">
-          <h3 class="text-xl font-semibold text-green-700 mb-3 select-none">📚 Documents</h3>
-          <button onclick="toggleContent(this)" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
-            View Documents
-          </button>
-          <div class="content hidden mt-4">
-            <ul class="list-disc ml-6 mt-1 text-gray-700 space-y-1">
-              <li><a href="#" class="hover:underline text-green-800">Topic 1 Notes.pdf</a></li>
-              <li><a href="#" class="hover:underline text-green-800">Summary Slides.pptx</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-300">
-          <h3 class="text-xl font-semibold text-yellow-700 mb-3 select-none">🧠 Quizzes</h3>
-          <button onclick="toggleContent(this)" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
-            View Quizzes
-          </button>
-          <div class="content hidden mt-4">
-            <p class="text-gray-700 mb-3 select-none">Test your understanding after lessons.</p>
-            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-5 py-2 rounded-md shadow-md">
-              Start Quiz
-            </button>
-          </div>
-        </div>
-      `;
-      container.appendChild(section);
-    });
-
-    function toggleContent(button) {
-      const content = button.nextElementSibling;
-      content.classList.toggle('hidden');
-      content.classList.toggle('visible');
-    }
-
-    function toggleTips() {
-      const tipsContent = document.getElementById('tipsContent');
-      tipsContent.classList.toggle('hidden');
-      tipsContent.classList.toggle('visible');
-    }
-  </script>
 </body>
 </html>
