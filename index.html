@@ -178,10 +178,8 @@
     subjects.forEach(subject => {
       const section = document.createElement('section');
       section.className = 'bg-white rounded-3xl shadow-2xl p-6';
-
       section.innerHTML = `
         <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-2 select-none">${subject}</h2>
-
         <div class="bg-blue-50 p-4 rounded-xl border border-blue-300 mb-6">
           <h3 class="text-xl font-semibold text-blue-700 mb-3 select-none">🎥 Video Lessons</h3>
           <button onclick="toggleContent(this)" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
@@ -191,7 +189,6 @@
             <p class="text-gray-600 select-none">Video content coming soon.</p>
           </div>
         </div>
-
         <div class="bg-purple-50 p-4 rounded-xl border border-purple-300 mb-6">
           <h3 class="text-xl font-semibold text-purple-700 mb-3 select-none">📄 Documents</h3>
           <button onclick="toggleContent(this)" class="bg-purple-700 hover:bg-purple-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
@@ -202,7 +199,6 @@
             <a href="#" class="text-blue-600 underline text-sm block mt-2 hover:text-blue-800">Download Notes</a>
           </div>
         </div>
-
         <div class="bg-green-50 p-4 rounded-xl border border-green-300">
           <h3 class="text-xl font-semibold text-green-700 mb-3 select-none">📝 Exam Quiz Questions</h3>
           <button onclick="toggleContent(this)" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
