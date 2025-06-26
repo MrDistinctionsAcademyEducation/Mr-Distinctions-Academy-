@@ -1,29 +1,25 @@
-if (subject === 'Physics') {
-  videoContent = `
-    <div class="grid grid-cols-1 gap-6 mt-4">
-      <div class="w-full aspect-video border-2 border-blue-400 rounded-xl overflow-hidden shadow-md">
-        <iframe class="w-full h-full" src="https://www.youtube.com/embed/aq0VibhvuSQ?si=Be8zVeDZbbAIsQUy"
-          title="Newton First Law" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
-        <p class="text-sm font-bold text-center text-red-700 mt-1">NEWTON FIRST LAW OF MOTION</p>
-      </div>
-
-      <div class="w-full aspect-video border-2 border-blue-400 rounded-xl overflow-hidden shadow-md">
-        <iframe class="w-full h-full" src="https://www.youtube.com/embed/taYezUWpPTc"
-          title="Newton Second Law" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
-        <p class="text-sm font-bold text-center text-red-700 mt-1">NEWTON SECOND LAW OF MOTION</p>
-      </div>
-
-      <div class="w-full aspect-video border-2 border-blue-400 rounded-xl overflow-hidden shadow-md">
-        <iframe class="w-full h-full" src="https://www.youtube.com/embed/JSJQZDrL-H0?si=UJ_cSsH2t5ncoVgJ"
-          title="Newton Third Law" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
-        <p class="text-sm font-bold text-center text-red-700 mt-1">NEWTON THIRD LAW OF MOTION</p>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mr Distinctions Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 font-[Poppins]">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center text-blue-700 mb-6">Mr Distinctions Academy</h1>
+    
+    <div class="flex justify-center">
+      <button onclick="loadSubject('Physics')" class="px-6 py-3 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition duration-200">
+        Physics Section
+      </button>
     </div>
-  `;
-}
+
+    <div id="video-container" class="mt-8"></div>
+  </div>
+
+  <script type="module" src="./scripts/dashboard.js"></script>
+</body>
+</html>
