@@ -7,7 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* Your existing styles here... */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
@@ -76,6 +75,8 @@
       border-radius: 6px;
       margin-bottom: 8px;
       transition: all 0.2s;
+      text-decoration: none;
+      color: inherit;
     }
     .document-link:hover {
       background-color: #e2e8f0;
@@ -151,7 +152,6 @@
   }
 
   async function fetchVideoLinks(subject) {
-    // folder names are lowercase and spaces replaced with hyphen
     const path = `${subject.toLowerCase().replace(/ /g, '-')}/videos`;
     const files = await fetchFromGitHub(path, file => file.name.endsWith('.html'));
     const links = [];
@@ -159,7 +159,6 @@
       try {
         const res = await fetch(file.download_url);
         const text = await res.text();
-        // Extract youtube URL, example: https://www.youtube.com/watch?v=XXXX
         const match = text.match(/https?:\/\/(www\.)?youtube\.com\/watch\?v=[\w-]+/);
         if (match) links.push(match[0]);
       } catch {}
@@ -204,7 +203,17 @@
         : `<p class="text-gray-600 select-none">Video content coming soon.</p>`;
 
       const documents = await fetchDocuments(subject);
-      const quizzes = await fetchQuizzes(subject);
+
+      // English quiz hardcoded; others dynamic
+      let quizContent = '';
+      if (subject === 'English Language') {
+        quizContent = `<a href="https://mrdistinctionsacademyeducation.github.io/Mr-Distinctions-Academy-/quiz/english-quiz.html" class="text-green-600 underline text-sm block mt-2 hover:text-green-800">Start Now</a>`;
+      } else {
+        const quizzes = await fetchQuizzes(subject);
+        quizContent = quizzes.length
+          ? quizzes.join('')
+          : '<p class="text-gray-600 select-none">No quizzes available yet.</p>';
+      }
 
       section.innerHTML = `
         <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-2 select-none">${subject}</h2>
@@ -241,11 +250,7 @@
           </button>
           <div class="content hidden mt-4">
             <p class="text-gray-600 select-none">Test your knowledge with exam quiz questions.</p>
-            ${
-              quizzes.length
-                ? quizzes.join('')
-                : '<p class="text-gray-600 select-none">No quizzes available yet.</p>'
-            }
+            ${quizContent}
           </div>
         </div>
       `;
