@@ -1,1 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🗣️ Speech Exam Questions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .correct { color: #16a34a; font-weight: bold; }
+    .wrong { color: #dc2626; font-weight: bold; }
+    .question-card { 
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    .question-card.correct-answer {
+      border-left-color: #16a34a;
+      background-color: #f0fdf4;
+    }
+    .question-card.wrong-answer {
+      border-left-color: #dc2626;
+      background-color: #fef2f2;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-blue-50 min-h-screen p-6 font-sans">
 
+  <div class="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-xl shadow-lg">
+    <h1 class="text-3xl font-bold text-center mb-2 text-indigo-700">🗣️ Speech Exam Questions</h1>
+    <p class="text-indigo-600 text-sm font-bold text-center mb-6">Transform these sentences into reported speech</p>
+
+    <form id="quizForm" class="space-y-6"></form>
+
+    <div id="scoreSection" class="mt-10 text-center hidden">
+      <div class="inline-block bg-indigo-100 px-6 py-4 rounded-full">
+        <p class="text-2xl font-bold text-indigo-700">
+          🎉 You scored <span id="scoreValue">0</span> out of <span id="totalQuestions">17</span>
+        </p>
+        <button id="tryAgainBtn" class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+          Try Again
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sound -->
+  <audio id="clapSound" src="https://www.soundjay.com/human/applause-01.mp3" preload="auto"></audio>
+
+  <script>
+    const questions = [
+      {
+        "text": "He asked when the patient would be discharged.",
+        "prompt": "Begin: <strong>He asked,</strong>",
+        "options": [
+          "“When will the patient be discharged?”",
+          "“When the patient would be discharged.”",
+          "“When would the patient be discharged?”"
+        ],
+        "correct": 0,
+        "rule": "This sentence is already in direct speech and does not require conversion. It is presented as a direct quote of what he asked."
+      },
+      {
+        "text": "“I am going to punish all of you if you don't do this homework,” said the teacher.",
+        "prompt": "Begin: <strong>The teacher said that</strong>",
+        "options": [
+          "he was going to punish all of them if they didn't do that homework.",
+          "he will punish all of them if they don't do this homework.",
+          "they should do their homework to avoid punishment."
+        ],
+        "correct": 0,
+        "rule": "In reported speech, 'I am going to punish' changes to 'he was going to punish' because it is reported in the past. 'You' changes to 'them' to reflect the change in perspective, and 'this' changes to 'that' for the same reason."
+      },
+      {
+        "text": "“I have never been tempted to steal,” she said, “because I am here to work.”",
+        "prompt": "Begin: <strong>She said that</strong>",
+        "options": [
+          "she had never been tempted to steal because she was there to work.",
+          "she has never been tempted to steal because she is here to work.",
+          "she never steals when she works."
+        ],
+        "correct": 0,
+        "rule": "In reported speech, 'I have never been tempted' changes to 'she had never been tempted' because it is reported in the past and requires the past perfect tense. 'I am' changes to 'she was' for the same reason."
+      },
+      {
+        "text": "“We are so far behind that I don't think we will pass the examination,” said Mary.",
+        "prompt": "Begin: <strong>Mary complained that</strong>",
+        "options": [
+          "they were so far behind that she didn't think they would pass the examination.",
+          "we are so far behind that I don't think we will pass the examination.",
+          "they are behind and might fail the exam."
+        ],
+        "correct": 0,
+        "rule": "In reported speech, 'we are' changes to 'they were' because it is reported in the past. 'I don't think' changes to 'she didn't think' for the same reason. 'Will pass' changes to 'would pass' because it is reported in the past."
+      },
+      {
+        "text": "He told Mary that Mulenga was back.",
+        "prompt": "Begin: <strong>“</strong> … <strong>,” he said.</strong>",
+        "options": [
+          "“Mulenga is back,”",
+          "“Mulenga was back,”",
+          "“That Mulenga is back,”"
+        ],
+        "correct": 0,
+        "rule": "This sentence is already in direct speech and does not require conversion. It is presented as a direct quote of what he said."
+      },
+      {
+        "text": "The teacher asked Jack if Elizabeth was telling the truth.",
+        "prompt": "Begin: <strong>The teacher asked Jack,</strong>",
+        "options": [
+          "“Is Elizabeth telling the truth?”",
+          "“Was Elizabeth telling the truth?”",
+          "“Does Elizabeth tell the truth?”"
+        ],
+        "correct": 0,
+        "rule": "This sentence is already in direct speech and does not require conversion. It is presented as a direct quote of what the teacher asked."
+      },
+      {
+        "text": "“I will have done this homework by tomorrow, sir,” he told his teacher.",
+        "prompt": "Begin: <strong>He told his teacher that</strong>",
+        "options": [
+          "he would have done that homework by the following day.",
+          "he will have done this homework by tomorrow.",
+          "he had done the homework the next day."
+        ],
+        "correct": 0,
+        "rule": "In reported speech, 'I will have done' changes to 'he would have done' because it is reported in the past. 'Tomorrow' changes to 'the following day' to maintain the correct time reference from his past perspective."
+      },
+      {
+        "text": "“I have broken my walking stick,” complained the old man.",
+        "prompt": "Begin: <strong>The old man complained that</strong>",
+        "options": [
+          "he had broken his walking stick.",
+          "he has broken his walking stick.",
+          "his walking stick was broken."
+        ],
+        "correct": 0,
+        "rule": "In reported speech, 'I have broken' changes to 'he had broken' because it is reported in the past and requires the past perfect tense."
+      },
+      {
+        "text": "“My daughter will join her brother in Kasama next year,” he said.",
+        "prompt": "Begin: <strong>He said that</strong>",
+        "options": [
+          "his daughter would join her brother in Kasama the following year.",
+          "his daughter will join her brother in Kasama next year.",
+          "his daughter joins her brother in Kasama next year."
+        ],
+        "correct": 0,
+        "rule": "When converting direct speech to reported speech, the future tense 'will join' changes to 'would join' because it is reported in the past. Additionally, 'next year' becomes 'the following year' to maintain the correct time reference from the speaker's past perspective."
+      },
+      {
+        "text": "“How much did this dress cost you?” Joseph asked Mary.",
+        "prompt": "Begin: <strong>Joseph asked Mary</strong>",
+        "options": [
+          "how much that dress had cost her.",
+          "how much did that dress cost her.",
+          "how much this dress cost her."
+        ],
+        "correct": 0,
+        "rule": "In reported speech, questions are typically converted into statements. The question 'How much did this dress cost you?' changes to 'how much that dress had cost her.' The verb tense changes from past simple 'did cost' to past perfect 'had cost' because the question is being reported after it was asked. 'This' changes to 'that' to reflect the change in perspective."
+      },
+      {
+        "text": "“Put down your pen, John,” shouted the teacher.",
+        "prompt": "Begin: <strong>The teacher commanded John</strong>",
+        "options": [
+          "to put down his pen.",
+          "put down your pen.",
+          "that he puts down his pen."
+        ],
+        "correct": 0,
+        "rule": "Commands or imperatives in direct speech are reported using verbs like 'commanded,' 'ordered,' or 'told' followed by the infinitive form of the verb. 'Put down your pen' becomes 'to put down his pen' in reported speech."
+      },
+      {
+        "text": "The teacher said that he wanted me to tell him the truth or he would slap me.",
+        "prompt": "Begin: <strong>The teacher said,</strong>",
+        "options": [
+          "“Tell me the truth or I will slap you.”",
+          "“I want you to tell me the truth or I will slap you.”",
+          "“Tell the truth or be slapped.”"
+        ],
+        "correct": 0,
+        "rule": "This sentence is already in direct speech and does not require conversion. It is presented as a direct quote of what the teacher said."
+      },
+      {
+        "text": "“I don't know if my friends will come tomorrow,” John said.",
+        "prompt": "Begin: <strong>John wondered</strong>",
+        "options": [
+          "if his friends would come the next day.",
+          "if his friends will come tomorrow.",
+          "whether his friends would come tomorrow."
+        ],
+        "correct": 0,
+        "rule": "The phrase 'I don't know' indicates uncertainty, which is reported using 'wondered.' The future tense 'will come' changes to 'would come' in reported speech. 'Tomorrow' becomes 'the next day' to maintain the correct time reference from John's past perspective."
+      },
+      {
+        "text": "Michael asked Namakau where her younger sister was.",
+        "prompt": "Begin: <strong>“</strong> … <strong>,” asked Michael.</strong>",
+        "options": [
+          "“Where is your younger sister?”",
+          "“Where was your younger sister?”",
+          "“Where your younger sister is?”"
+        ],
+        "correct": 0,
+        "rule": "This sentence is already in direct speech and does not require conversion. It is presented as a direct quote of what Michael Namakau asked."
+      },
+      {
+        "text": "Mr Chama said, “Son, wake up early tomorrow morning.”",
+        "prompt": "Begin: <strong>Mr Chama reminded</strong>",
+        "options": [
+          "his son to wake up early the next morning.",
+          "his son that he must wake up early tomorrow.",
+          "his son to wake early in the morning."
+        ],
+        "correct": 0,
+        "rule": "The verb 'reminded' is used to report advice or reminders. 'Wake up early tomorrow morning' becomes 'to wake up early the next morning' in reported speech. 'Tomorrow' changes to 'the next' to reflect the change in time perspective."
+      },
+      {
+        "text": "“I will write the homework tomorrow,” said Doreen.",
+        "prompt": "Begin: <strong>Doreen said that</strong>",
+        "options": [
+          "she would write the homework the next day.",
+          "she will write the homework tomorrow.",
+          "she writes the homework tomorrow."
+        ],
+        "correct": 0,
+        "rule": "In reported speech, 'I will write' changes to 'she would write' because it is reported in the past. 'Tomorrow' becomes 'the next day' to maintain the correct time reference from Doreen's past perspective."
+      },
+      {
+        "text": "“I am not responsible for this loss in any way,” said the goalkeeper.",
+        "prompt": "Begin: <strong>The goalkeeper said that</strong>",
+        "options": [
+          "he was not responsible for that loss in any way.",
+          "he is not responsible for this loss in any way.",
+          "he had not been responsible for the loss."
+        ],
+        "correct": 0,
+        "rule": "In reported speech, 'I am not responsible' changes to 'he was not responsible' because it is reported in the past. 'This' changes to 'that' to reflect the change in perspective. The phrase remains largely unchanged as it is a statement of fact being reported."
+      }
+    ];
+
+    const quizForm = document.getElementById('quizForm');
+    const scoreSection = document.getElementById('scoreSection');
+    const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const totalQuestionsSpan = document.getElementById('totalQuestions');
+    let score = 0;
+
+    // Initialize quiz
+    function initQuiz() {
+      quizForm.innerHTML = '';
+      score = 0;
+      scoreSection.classList.add('hidden');
+      totalQuestionsSpan.textContent = questions.length;
+
+      questions.forEach((q, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'question-card p-4 bg-white border rounded-xl shadow bg-gradient-to-r from-white to-blue-50';
+        wrapper.id = `question-${index}`;
+
+        const optionHtml = q.options.map((opt, i) => `
+          <li class="mb-2">
+            <label class="flex items-start cursor-pointer group">
+              <input type="radio" name="q${index}" value="${i}" class="mt-1 mr-2">
+              <span class="group-hover:text-blue-600">${opt}</span>
+            </label>
+          </li>
+        `).join('');
+
+        wrapper.innerHTML = `
+          <p class="mb-2 font-medium text-gray-800">${index + 1}. ${q.text}</p>
+          <p class="mb-3 text-gray-700">${q.prompt}</p>
+          <ul class="space-y-2 pl-2">${optionHtml}</ul>
+          <p id="feedback${index}" class="mt-3 hidden"></p>
+          <p id="rule${index}" class="mt-2 text-sm text-gray-600 hidden">
+            <span class="font-semibold">Grammar Rule:</span> ${q.rule}
+          </p>
+        `;
+
+        quizForm.appendChild(wrapper);
+
+        wrapper.querySelectorAll(`input[name="q${index}"]`).forEach(input => {
+          input.addEventListener('change', () => {
+            const feedback = document.getElementById(`feedback${index}`);
+            const rule = document.getElementById(`rule${index}`);
+            const selected = parseInt(input.value);
+            const clap = document.getElementById("clapSound");
+
+            if (selected === q.correct) {
+              feedback.innerHTML = "✅ <span class='correct'>Correct!</span>";
+              wrapper.classList.add('correct-answer');
+              wrapper.classList.remove('wrong-answer');
+              score++;
+              clap.currentTime = 0;
+              clap.play();
+            } else {
+              feedback.innerHTML = `❌ <span class='wrong'>Incorrect. The right answer is:</span> <span class="font-semibold">${q.options[q.correct]}</span>`;
+              wrapper.classList.add('wrong-answer');
+              wrapper.classList.remove('correct-answer');
+            }
+
+            feedback.classList.remove("hidden");
+            rule.classList.remove("hidden");
+            wrapper.querySelectorAll(`input[name="q${index}"]`).forEach(r => r.disabled = true);
+
+            checkCompletion();
+          });
+        });
+      });
+    }
+
+    function checkCompletion() {
+      const answeredQuestions = [...document.querySelectorAll('input[type="radio"]:checked')].length;
+      if (answeredQuestions === questions.length) {
+        document.getElementById('scoreValue').textContent = score;
+        scoreSection.classList.remove("hidden");
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    tryAgainBtn.addEventListener('click', initQuiz);
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', initQuiz);
+  </script>
+</body>
+  </html>
