@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -6,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
+    /* Your existing styles here... */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
@@ -85,32 +87,39 @@
     }
   </style>
 </head>
-<body><section id="dashboardSection" class="min-h-screen flex flex-col">
+<body>
+<section id="dashboardSection" class="min-h-screen flex flex-col">
   <header class="bg-transparent text-blue-900 py-4 px-4 container mx-auto">
     <h1 class="text-xl font-extrabold drop-shadow-md select-none">Mr Distinctions Academy</h1>
     <p class="text-sm italic mt-1 text-blue-700 select-none">"We are here to simply your academic journey"</p>
-  </header>  <main class="flex-grow container mx-auto px-4 py-10 max-w-screen-xl">
-    <div id="subjects-container" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16"></div><section class="bg-white rounded-3xl shadow-2xl p-8 mt-12">
-  <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-3 select-none">STUDY &amp; EXAM TIPS VIDEOS</h2>
-  <button id="tipsBtn" onclick="toggleTips()" class="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-7 py-3 rounded-lg shadow-lg transition active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400">
-    View Tips Videos
-  </button>
-  <div id="tipsContent" class="hidden mt-8 space-y-10">
-    <p class="text-gray-600 select-none">No tips videos currently available.</p>
-  </div>
-</section>
+  </header>
+  <main class="flex-grow container mx-auto px-4 py-10 max-w-screen-xl">
+    <div id="subjects-container" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16"></div>
+    <section class="bg-white rounded-3xl shadow-2xl p-8 mt-12">
+      <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-3 select-none">STUDY &amp; EXAM TIPS VIDEOS</h2>
+      <button id="tipsBtn" onclick="toggleTips()" class="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-7 py-3 rounded-lg shadow-lg transition active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400">
+        View Tips Videos
+      </button>
+      <div id="tipsContent" class="hidden mt-8 space-y-10">
+        <p class="text-gray-600 select-none">No tips videos currently available.</p>
+      </div>
+    </section>
 
-<div class="flex justify-end mt-6 mb-6">
-  <button onclick="handleLogout()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1 rounded-md shadow-sm transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-400">
-    Logout
-  </button>
-</div>
-
-  </main>  <footer class="bg-blue-800 text-white text-center py-6 mt-8 select-none shadow-inner">
+    <div class="flex justify-end mt-6 mb-6">
+      <button onclick="handleLogout()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1 rounded-md shadow-sm transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-400">
+        Logout
+      </button>
+    </div>
+  </main>
+  <footer class="bg-blue-800 text-white text-center py-6 mt-8 select-none shadow-inner">
     <p class="text-sm">&copy; 2025 Mr Distinctions Academy. All rights reserved.</p>
   </footer>
-</section><script>
+</section>
+
+<script>
   const subjects = ['English Language', 'Mathematics', 'Chemistry', 'Physics', 'Biology'];
+  const username = 'mrdistinctionsacademyeducation';
+  const repo = 'Mr-Distinctions-Academy-';
   const container = document.getElementById('subjects-container');
 
   function handleLogout() {
@@ -129,31 +138,73 @@
     tipsContent.classList.toggle('visible');
   }
 
-  function initializeDashboard() {
+  async function fetchFromGitHub(folder, filterFn) {
+    const url = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`);
+      const files = await response.json();
+      return files.filter(filterFn);
+    } catch {
+      return [];
+    }
+  }
+
+  async function fetchVideoLinks(subject) {
+    // folder names are lowercase and spaces replaced with hyphen
+    const path = `${subject.toLowerCase().replace(/ /g, '-')}/videos`;
+    const files = await fetchFromGitHub(path, file => file.name.endsWith('.html'));
+    const links = [];
+    for (const file of files) {
+      try {
+        const res = await fetch(file.download_url);
+        const text = await res.text();
+        // Extract youtube URL, example: https://www.youtube.com/watch?v=XXXX
+        const match = text.match(/https?:\/\/(www\.)?youtube\.com\/watch\?v=[\w-]+/);
+        if (match) links.push(match[0]);
+      } catch {}
+    }
+    return links;
+  }
+
+  async function fetchDocuments(subject) {
+    const path = `${subject.toLowerCase().replace(/ /g, '-')}/documents`;
+    const files = await fetchFromGitHub(path, file => file.name.endsWith('.pdf') || file.name.endsWith('.docx'));
+    return files.map(file =>
+      `<a href="${file.download_url}" target="_blank" class="document-link">📄 ${file.name}</a>`
+    );
+  }
+
+  async function fetchQuizzes(subject) {
+    const path = `${subject.toLowerCase().replace(/ /g, '-')}/quiz`;
+    const files = await fetchFromGitHub(path, file => file.name.endsWith('.html'));
+    return files.map(file =>
+      `<a href="${file.html_url}" target="_blank" class="document-link">📝 ${file.name}</a>`
+    );
+  }
+
+  async function initializeDashboard() {
     container.innerHTML = '';
-    subjects.forEach(subject => {
+    for (const subject of subjects) {
       const section = document.createElement('section');
       section.className = 'bg-white rounded-3xl shadow-2xl p-6';
 
-      let videoContent = `<p class="text-gray-600 select-none">Video content coming soon.</p>`;
-      let documentsContent = '';
-      let quizLink = '';
-
-      if (subject === 'English Language') {
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/drive/folders/1lMmDHmkmfUH5P9uZ5USaSNe-oWdpL5vB" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>English Language Study Materials</span>
-            </a>
+      const videoLinks = await fetchVideoLinks(subject);
+      const videosContent = videoLinks.length
+        ? videoLinks
+            .map(
+              link => `
+        <div class="video-box">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/${new URL(link).searchParams.get('v')}" allowfullscreen></iframe>
           </div>
-        `;
-        quizLink = `<a href="https://mrdistinctionsacademyeducation.github.io/Mr-Distinctions-Academy-/quiz/english-quiz.html" class="text-green-600 underline text-sm block mt-2 hover:text-green-800">Start Now</a>`;
-      }
+        </div>`
+            )
+            .join('')
+        : `<p class="text-gray-600 select-none">Video content coming soon.</p>`;
+
+      const documents = await fetchDocuments(subject);
+      const quizzes = await fetchQuizzes(subject);
 
       section.innerHTML = `
         <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-2 select-none">${subject}</h2>
@@ -164,7 +215,7 @@
             View Videos
           </button>
           <div class="content hidden">
-            ${videoContent}
+            ${videosContent}
           </div>
         </div>
 
@@ -175,7 +226,11 @@
           </button>
           <div class="content hidden mt-4">
             <p class="text-gray-600 select-none mb-2">Download and read helpful study materials:</p>
-            ${documentsContent}
+            ${
+              documents.length
+                ? documents.join('')
+                : '<p class="text-gray-600 select-none">No documents uploaded yet.</p>'
+            }
           </div>
         </div>
 
@@ -186,15 +241,20 @@
           </button>
           <div class="content hidden mt-4">
             <p class="text-gray-600 select-none">Test your knowledge with exam quiz questions.</p>
-            ${quizLink}
+            ${
+              quizzes.length
+                ? quizzes.join('')
+                : '<p class="text-gray-600 select-none">No quizzes available yet.</p>'
+            }
           </div>
         </div>
       `;
 
       container.appendChild(section);
-    });
+    }
   }
 
   window.addEventListener('DOMContentLoaded', initializeDashboard);
-</script></body>
+</script>
+</body>
 </html>
