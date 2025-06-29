@@ -242,6 +242,15 @@
     const totalQuestionsSpan = document.getElementById('totalQuestions');
     let score = 0;
 
+    // Function to shuffle array elements
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
     // Initialize quiz
     function initQuiz() {
       quizForm.innerHTML = '';
@@ -250,11 +259,23 @@
       totalQuestionsSpan.textContent = questions.length;
 
       questions.forEach((q, index) => {
+        // Create a copy of the question to avoid modifying the original
+        const questionCopy = JSON.parse(JSON.stringify(q));
+        
+        // Shuffle options and track the new position of the correct answer
+        const optionsWithIndices = questionCopy.options.map((opt, i) => ({ option: opt, originalIndex: i }));
+        shuffleArray(optionsWithIndices);
+        
+        // Update options and correct index
+        questionCopy.options = optionsWithIndices.map(item => item.option);
+        const newCorrectIndex = optionsWithIndices.findIndex(item => item.originalIndex === questionCopy.correct);
+        questionCopy.correct = newCorrectIndex;
+
         const wrapper = document.createElement('div');
         wrapper.className = 'question-card p-4 bg-white border rounded-xl shadow bg-gradient-to-r from-white to-blue-50';
         wrapper.id = `question-${index}`;
 
-        const optionHtml = q.options.map((opt, i) => `
+        const optionHtml = questionCopy.options.map((opt, i) => `
           <li class="mb-2">
             <label class="flex items-start cursor-pointer group">
               <input type="radio" name="q${index}" value="${i}" class="mt-1 mr-2">
@@ -264,12 +285,12 @@
         `).join('');
 
         wrapper.innerHTML = `
-          <p class="mb-2 font-medium text-gray-800">${index + 1}. ${q.text}</p>
-          <p class="mb-3 text-gray-700">${q.prompt}</p>
+          <p class="mb-2 font-medium text-gray-800">${index + 1}. ${questionCopy.text}</p>
+          <p class="mb-3 text-gray-700">${questionCopy.prompt}</p>
           <ul class="space-y-2 pl-2">${optionHtml}</ul>
           <p id="feedback${index}" class="mt-3 hidden"></p>
           <p id="rule${index}" class="mt-2 text-sm text-gray-600 hidden">
-            <span class="font-semibold">Grammar Rule:</span> ${q.rule}
+            <span class="font-semibold">Grammar Rule:</span> ${questionCopy.rule}
           </p>
         `;
 
@@ -282,7 +303,7 @@
             const selected = parseInt(input.value);
             const clap = document.getElementById("clapSound");
 
-            if (selected === q.correct) {
+            if (selected === questionCopy.correct) {
               feedback.innerHTML = "✅ <span class='correct'>Correct!</span>";
               wrapper.classList.add('correct-answer');
               wrapper.classList.remove('wrong-answer');
@@ -290,7 +311,7 @@
               clap.currentTime = 0;
               clap.play();
             } else {
-              feedback.innerHTML = `❌ <span class='wrong'>Incorrect. The right answer is:</span> <span class="font-semibold">${q.options[q.correct]}</span>`;
+              feedback.innerHTML = `❌ <span class='wrong'>Incorrect. The right answer is:</span> <span class="font-semibold">${questionCopy.options[questionCopy.correct]}</span>`;
               wrapper.classList.add('wrong-answer');
               wrapper.classList.remove('correct-answer');
             }
@@ -323,4 +344,4 @@
     document.addEventListener('DOMContentLoaded', initQuiz);
   </script>
 </body>
-  </html>
+</html>
