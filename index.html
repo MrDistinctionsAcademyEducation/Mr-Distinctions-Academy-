@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mr Distinctions Academy</title>
+  <title>Mr Distinctions Academy - Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -14,6 +14,7 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
+
     .typing {
       display: inline-block;
       overflow: hidden;
@@ -21,119 +22,56 @@
       animation: typing 2s steps(30, end) forwards;
       border-right: 2px solid #4B5563;
     }
+
     @keyframes typing {
       from { width: 0 }
       to { width: 100% }
     }
+
     .loading-dots span {
       animation: blink 1.5s infinite;
     }
+
     .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
     .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
     @keyframes blink {
       0%, 80%, 100% { opacity: 0 }
       40% { opacity: 1 }
-    }
-    .content, #tipsContent {
-      transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
-      overflow: hidden;
-    }
-    .hidden {
-      display: none !important;
-      max-height: 0 !important;
-      opacity: 0;
-      padding: 0 !important;
-      margin: 0 !important;
-      pointer-events: none;
-    }
-    .visible {
-      display: block !important;
-      max-height: 1000px;
-      opacity: 1;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-      pointer-events: auto;
-    }
-    /* Video styles */
-    .video-box {
-      border: 2px solid #3b82f6;
-      border-radius: 1rem;
-      box-shadow: 0 4px 6px rgba(59, 130, 246, 0.4);
-      overflow: hidden;
-      max-width: 100%;
-      margin-bottom: 1.5rem;
-    }
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-    }
-    .video-wrapper iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 1rem;
-    }
-    .video-title {
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: #dc2626;
-      text-align: center;
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    .document-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      background-color: #f8fafc;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      transition: all 0.2s;
-    }
-    .document-link:hover {
-      background-color: #e2e8f0;
-      transform: translateX(2px);
-    }
-    .document-icon {
-      width: 24px;
-      height: 24px;
     }
   </style>
 </head>
 <body>
 
-<!-- LOGIN SECTION -->
-<section id="loginSection" class="bg-gradient-to-tr from-purple-200 via-blue-100 to-pink-200 h-screen flex flex-col items-center justify-start text-center border-t-8 border-blue-800 px-4 pt-4 pb-2 overflow-hidden">
+<section class="h-screen flex flex-col items-center justify-start text-center border-t-8 border-blue-800 px-4 pt-8 pb-4 overflow-hidden">
   <h2 class="text-lg font-bold text-black mb-1">Welcome to Mr Distinctions Academy's Website.</h2>
   <p class="italic font-bold text-blue-700 text-sm mb-4 tracking-wide">"We are here to simplify your academic journey!"</p>
-  <div class="bg-blue-50 rounded-xl p-3 w-full max-w-md mb-3">
-    <h3 class="text-base font-semibold text-blue-900 mb-1 uppercase">WE ARE SPECIALISE IN:</h3>
-    <h4 class="text-sm font-semibold text-red-600 mb-2 uppercase tracking-wide">SUBJECTS:</h4>
+
+  <div class="bg-blue-50 rounded-xl p-3 w-full max-w-md mb-4">
+    <h3 class="text-base font-semibold text-blue-900 mb-1 uppercase">We Specialise In:</h3>
+    <h4 class="text-sm font-semibold text-red-600 mb-2 uppercase tracking-wide">Subjects:</h4>
     <ul class="text-blue-700 text-sm space-y-1">
       <li>🧬 Biology</li>
       <li>🎓 Mathematics</li>
       <li>📘 English Language</li>
-      <li>🔬 Chemistry and Physics (Science)</li>
+      <li>🔬 Chemistry and Physics</li>
     </ul>
-    <h4 class="text-sm font-semibold text-red-600 mt-3 uppercase tracking-wide">TIPS:</h4>
+    <h4 class="text-sm font-semibold text-red-600 mt-3 uppercase tracking-wide">Tips:</h4>
     <ul class="text-blue-700 text-sm mt-1 space-y-1 text-left list-none">
       <li>📚 How to study smart</li>
       <li>⏱️ How to revise quickly</li>
-      <li>🗓️ Things to know a week before the exams</li>
-      <li>⚠️ Do's and don'ts during the exam period</li>
-      <li>📝 How to write the exam without making mistakes</li>
+      <li>🗓️ What to know a week before exams</li>
+      <li>⚠️ Exam do's and don'ts</li>
+      <li>📝 Writing exams without mistakes</li>
     </ul>
   </div>
+
   <div id="welcomeMessage" class="hidden text-center mt-2 mb-2"></div>
-  <div class="text-center mb-3">
+
+  <div class="text-center mb-4">
     <button onclick="handleLogin()" class="px-4 py-2 bg-black text-white text-sm font-semibold rounded-full shadow-md hover:bg-blue-800 transition duration-300">Log In</button>
   </div>
+
   <div class="flex justify-center items-center gap-10 mb-2">
     <a href="https://wa.me/260976975898" target="_blank" class="hover:scale-110 transition-transform italic">
       <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="WhatsApp" class="w-6 h-6 rounded-full" />
@@ -147,254 +85,29 @@
       </svg>
     </a>
   </div>
-  <div class="absolute bottom-16 left-4 text-xs text-gray-600 z-10">Pascal Kaunda ©2025</div>
-</section>
 
-<!-- DASHBOARD SECTION -->
-<section id="dashboardSection" class="hidden text-gray-900 min-h-screen flex flex-col">
-  <header class="bg-transparent text-white py-4 shadow-none px-4 container mx-auto">
-    <h1 class="text-xl font-extrabold text-blue-900 drop-shadow-md select-none">Mr Distinctions Academy</h1>
-    <p class="text-sm italic mt-1 text-blue-700 select-none">"We are here to simply your academic journey"</p>
-  </header>
-
-  <main class="flex-grow container mx-auto px-4 py-10 max-w-screen-xl">
-    <div id="subjects-container" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16"></div>
-
-    <section class="bg-white rounded-3xl shadow-2xl p-8 mt-12">
-      <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-3 select-none">STUDY &amp; EXAM TIPS VIDEOS</h2>
-      <button id="tipsBtn" onclick="toggleTips()" class="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-7 py-3 rounded-lg shadow-lg transition active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400">
-        View Tips Videos
-      </button>
-      <div id="tipsContent" class="hidden mt-8 space-y-10"></div>
-    </section>
-
-    <div class="flex justify-end mt-6 mb-6">
-      <button onclick="handleLogout()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1 rounded-md shadow-sm transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-400">
-        Logout
-      </button>
-    </div>
-  </main>
-
-  <footer class="bg-blue-800 text-white text-center py-6 mt-8 select-none shadow-inner">
-    <p class="text-sm">&copy; 2025 Mr Distinctions Academy. All rights reserved.</p>
-  </footer>
+  <div class="absolute bottom-4 left-4 text-xs text-gray-600 z-10">Pascal Kaunda ©2025</div>
 </section>
 
 <script>
-  const subjects = ['English Language', 'Mathematics', 'Chemistry', 'Physics', 'Biology'];
-  const container = document.getElementById('subjects-container');
-
   function handleLogin() {
     const password = prompt("Enter password:");
     const messageBox = document.getElementById("welcomeMessage");
+
     if (password === "Pascal Kunda") {
-      messageBox.innerHTML = `<span class="typing text-green-700 font-bold text-base">Mr Distinctions Welcomes You!</span><div class="loading-dots text-sm text-gray-600 mt-1"><span>.</span><span>.</span><span>.</span></div>`;
+      messageBox.innerHTML = `
+        <span class="typing text-green-700 font-bold text-base">Mr Distinctions Welcomes You!</span>
+        <div class="loading-dots text-sm text-gray-600 mt-1"><span>.</span><span>.</span><span>.</span></div>`;
       messageBox.classList.remove("hidden");
+
       setTimeout(() => {
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('dashboardSection').classList.remove('hidden');
-        initializeDashboard();
+        window.location.href = "dashboard.html";
       }, 3000);
     } else {
       alert("Incorrect password. Access denied.");
     }
   }
-
-  function handleLogout() {
-    document.getElementById('dashboardSection').classList.add('hidden');
-    document.getElementById('loginSection').classList.remove('hidden');
-    const messageBox = document.getElementById("welcomeMessage");
-    messageBox.innerHTML = '';
-    messageBox.classList.add("hidden");
-    const tipsContent = document.getElementById('tipsContent');
-    tipsContent.classList.add('hidden');
-    tipsContent.classList.remove('visible');
-  }
-
-  function toggleContent(button) {
-    const content = button.nextElementSibling;
-    content.classList.toggle('hidden');
-    content.classList.toggle('visible');
-  }
-
-  function toggleTips() {
-    const tipsContent = document.getElementById('tipsContent');
-    tipsContent.classList.toggle('hidden');
-    tipsContent.classList.toggle('visible');
-  }
-
-  function initializeDashboard() {
-    container.innerHTML = '';
-    subjects.forEach(subject => {
-      const section = document.createElement('section');
-      section.className = 'bg-white rounded-3xl shadow-2xl p-6';
-
-      // Default content for all subjects
-      let videoContent = `
-        <p class="text-gray-600 select-none">Video content coming soon.</p>
-      `;
-      
-      // Documents content for each subject
-      let documentsContent = '';
-      
-      // Special content for Physics
-      if (subject === 'Physics') {
-        videoContent = `
-          <div class="space-y-6">
-            <div class="video-box">
-              <div class="video-wrapper">
-                <iframe
-                  src="https://www.youtube.com/embed/aq0VibhvuSQ?si=Be8zVeDZbbAIsQUy"
-                  title="Newton First Law"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen>
-                </iframe>
-              </div>
-              <p class="video-title">NEWTON FIRST LAW OF MOTION MADE BY MR DISTINCTIONS</p>
-            </div>
-            
-            <div class="video-box">
-              <div class="video-wrapper">
-                <iframe
-                  src="https://www.youtube.com/embed/taYezUWpPTc"
-                  title="Newton Second Law"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen>
-                </iframe>
-              </div>
-              <p class="video-title">NEWTON SECOND LAW OF MOTION MADE BY MR DISTINCTIONS</p>
-            </div>
-            
-            <div class="video-box">
-              <div class="video-wrapper">
-                <iframe
-                  src="https://www.youtube.com/embed/JSJQZDrL-H0?si=UJ_cSsH2t5ncoVgJ"
-                  title="Newton Third Law"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen>
-                </iframe>
-              </div>
-              <p class="video-title">NEWTON THIRD LAW OF MOTION MADE BY MR DISTINCTIONS</p>
-            </div>
-          </div>
-        `;
-        
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/file/d/1HAjXDU-_Y2fmfGfIVQlOsQTe6VVFYOWX/view?usp=drivesdk" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>Physics Study Materials</span>
-            </a>
-          </div>
-        `;
-      }
-      
-      // Biology documents
-      if (subject === 'Biology') {
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/drive/folders/1HEZDpBT93GPfGK5_er5pN3M26FDUdyzH" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>Biology Study Materials</span>
-            </a>
-          </div>
-        `;
-      }
-      
-      // English documents
-      if (subject === 'English Language') {
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/drive/folders/1lMmDHmkmfUH5P9uZ5USaSNe-oWdpL5vB" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>English Language Study Materials</span>
-            </a>
-          </div>
-        `;
-      }
-      
-      // Mathematics documents
-      if (subject === 'Mathematics') {
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/drive/folders/1S8PB3CAx1hmuSJy-WnC4YpTcMXA-jP-C" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>Mathematics Study Materials</span>
-            </a>
-          </div>
-        `;
-      }
-      
-      // Chemistry documents
-      if (subject === 'Chemistry') {
-        documentsContent = `
-          <div class="mt-4">
-            <a href="https://drive.google.com/file/d/1HEX80su2RTKhzpd5lUbsPr_hUfwYUBQI/view?usp=drivesdk" target="_blank" class="document-link">
-              <svg class="document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-                <path d="M14 2v6h6" fill="#34A853"/>
-                <path d="M14 8h6L14 2v6z" fill="#EA4335"/>
-              </svg>
-              <span>Chemistry Study Materials</span>
-            </a>
-          </div>
-        `;
-      }
-
-      section.innerHTML = `
-        <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-2 select-none">${subject}</h2>
-
-        <div class="bg-blue-50 p-4 rounded-xl border border-blue-300 mb-6">
-          <h3 class="text-xl font-semibold text-blue-700 mb-3 select-none">🎥 Video Lessons</h3>
-          <button onclick="toggleContent(this)" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
-            View Videos
-          </button>
-          <div class="content hidden">
-            ${videoContent}
-          </div>
-        </div>
-
-        <div class="bg-purple-50 p-4 rounded-xl border border-purple-300 mb-6">
-          <h3 class="text-xl font-semibold text-purple-700 mb-3 select-none">📄 Documents</h3>
-          <button onclick="toggleContent(this)" class="bg-purple-700 hover:bg-purple-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
-            View Documents
-          </button>
-          <div class="content hidden mt-4">
-            <p class="text-gray-600 select-none mb-2">Download and read helpful study materials:</p>
-            ${documentsContent}
-          </div>
-        </div>
-
-        <div class="bg-green-50 p-4 rounded-xl border border-green-300">
-          <h3 class="text-xl font-semibold text-green-700 mb-3 select-none">📝 Exam Quiz Questions</h3>
-          <button onclick="toggleContent(this)" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-md shadow-md transition focus:outline-none">
-            View Exam Quiz Questions
-          </button>
-          <div class="content hidden mt-4">
-            <p class="text-gray-600 select-none">Test your knowledge with exam quiz questions.</p>
-            <a href="#" class="text-green-600 underline text-sm block mt-2 hover:text-green-800">Start Now</a>
-          </div>
-        </div>
-      `;
-      container.appendChild(section);
-    });
-  }
 </script>
+
 </body>
 </html>
