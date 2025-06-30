@@ -9,6 +9,7 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
+      margin: 0;
       background: linear-gradient(135deg, #c3bef0 0%, #b1dbf0 50%, #f3d2fd 100%);
       min-height: 100vh;
       overflow-x: hidden;
@@ -22,6 +23,8 @@
       display: none !important;
       max-height: 0 !important;
       opacity: 0;
+      padding: 0 !important;
+      margin: 0 !important;
       pointer-events: none;
     }
     .visible {
@@ -55,6 +58,14 @@
       border: none;
       border-radius: 1rem;
     }
+    .video-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #dc2626;
+      text-align: center;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+    }
     .document-link {
       display: flex;
       align-items: center;
@@ -71,6 +82,10 @@
       background-color: #e2e8f0;
       transform: translateX(2px);
     }
+    .document-icon {
+      width: 24px;
+      height: 24px;
+    }
   </style>
 </head>
 <body>
@@ -81,17 +96,17 @@
   </header>
   <main class="flex-grow container mx-auto px-4 py-10 max-w-screen-xl">
     <div id="subjects-container" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16"></div>
-
     <section class="bg-white rounded-3xl shadow-2xl p-8 mt-12">
       <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-3 select-none">STUDY &amp; EXAM TIPS VIDEOS</h2>
       <button id="tipsBtn" onclick="toggleTips()" class="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-7 py-3 rounded-lg shadow-lg transition active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400">
         View Tips Videos
       </button>
       <div id="tipsContent" class="hidden mt-8 space-y-10">
-        <p class="text-gray-600 select-none">No tips videos currently available.</p>
+        <div id="tips-videos-container">
+          <p class="text-gray-600 select-none">No tips videos currently available.</p>
+        </div>
       </div>
     </section>
-
     <div class="flex justify-end mt-6 mb-6">
       <button onclick="handleLogout()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1 rounded-md shadow-sm transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-400">
         Logout
@@ -102,16 +117,13 @@
     <p class="text-sm">&copy; 2025 Mr Distinctions Academy. All rights reserved.</p>
   </footer>
 </section>
-
 <script>
+  // === CONFIGURATION ===
   const subjects = ['English Language', 'Mathematics', 'Chemistry', 'Physics', 'Biology'];
   const username = 'mrdistinctionsacademyeducation';
   const repo = 'Mr-Distinctions-Academy-';
   const container = document.getElementById('subjects-container');
-
-  function handleLogout() {
-    window.location.href = 'index.html';
-  }
+  function handleLogout() { window.location.href = 'index.html'; }
 
   function toggleContent(button) {
     const content = button.nextElementSibling;
@@ -125,6 +137,7 @@
     tipsContent.classList.toggle('visible');
   }
 
+  // Fetch files from GitHub
   async function fetchFromGitHub(folder, filterFn) {
     const url = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
     try {
@@ -137,66 +150,45 @@
     }
   }
 
-  // ✅ FIXED: Support YouTube EMBED links
-  async function fetchVideoLinks(subject) {
-    const path = `${subject.toLowerCase().replace(/ /g, '-')}/videos`;
-    const files = await fetchFromGitHub(path, file => file.name.endsWith('.html'));
+  // Extract YouTube video links from HTML files
+  async function fetchVideoLinks(folder) {
+    const files = await fetchFromGitHub(folder, file => file.name.endsWith('.html'));
     const links = [];
     for (const file of files) {
       try {
         const res = await fetch(file.download_url);
         const text = await res.text();
-        const match = text.match(/https:\/\/www\.youtube\.com\/embed\/([\w-]+)/);
-        if (match) links.push(`https://www.youtube.com/embed/${match[1]}`);
+        // Supports multiple YouTube links per file
+        const matches = text.match(/https?:\/\/(?:www\.)?youtube\.com\/watch\?v=[\w-]+/g);
+        if (matches) links.push(...matches);
       } catch {}
     }
     return links;
   }
 
-  async function fetchDocuments(subject) {
-    const path = `${subject.toLowerCase().replace(/ /g, '-')}/documents`;
-    const files = await fetchFromGitHub(path, file => file.name.endsWith('.pdf') || file.name.endsWith('.docx'));
-    return files.map(file =>
-      `<a href="${file.download_url}" target="_blank" class="document-link">📄 ${file.name}</a>`
-    );
-  }
-
-  async function fetchQuizzes(subject) {
-    const path = `${subject.toLowerCase().replace(/ /g, '-')}/quiz`;
-    const files = await fetchFromGitHub(path, file => file.name.endsWith('.html'));
-    return files.map(file =>
-      `<a href="${file.html_url}" target="_blank" class="document-link">📝 ${file.name}</a>`
-    );
-  }
-
+  // DASHBOARD MAIN INITIALIZER
   async function initializeDashboard() {
     container.innerHTML = '';
     for (const subject of subjects) {
       const section = document.createElement('section');
       section.className = 'bg-white rounded-3xl shadow-2xl p-6';
 
-      const videoLinks = await fetchVideoLinks(subject);
+      // Fetch subject-based videos:
+      const path = `${subject.toLowerCase().replace(/ /g, '-')}/videos`;
+      const videoLinks = await fetchVideoLinks(path);
+
       const videosContent = videoLinks.length
         ? videoLinks.map(link => `
-            <div class="video-box">
-              <div class="video-wrapper">
-                <iframe src="${link}" allowfullscreen></iframe>
-              </div>
+          <div class="video-box">
+            <div class="video-wrapper">
+              <iframe src="https://www.youtube.com/embed/${new URL(link).searchParams.get('v')}" allowfullscreen></iframe>
             </div>
-          `).join('')
+          </div>`).join('')
         : `<p class="text-gray-600 select-none">Video content coming soon.</p>`;
 
-      const documents = await fetchDocuments(subject);
-
-      let quizContent = '';
-      if (subject === 'English Language') {
-        quizContent = `<a href="https://mrdistinctionsacademyeducation.github.io/Mr-Distinctions-Academy-/quiz/english-quiz.html" class="text-green-600 underline text-sm block mt-2 hover:text-green-800">Start Now</a>`;
-      } else {
-        const quizzes = await fetchQuizzes(subject);
-        quizContent = quizzes.length
-          ? quizzes.join('')
-          : '<p class="text-gray-600 select-none">No quizzes available yet.</p>';
-      }
+      const quizContent = subject === 'English Language'
+        ? `<a href="https://mrdistinctionsacademyeducation.github.io/Mr-Distinctions-Academy-/quiz/english-quiz.html" class="text-green-600 underline text-sm block mt-2 hover:text-green-800">Start Now</a>`
+        : '<p class="text-gray-600 select-none">No quizzes available yet.</p>';
 
       section.innerHTML = `
         <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-2 select-none">${subject}</h2>
@@ -217,12 +209,7 @@
             View Documents
           </button>
           <div class="content hidden mt-4">
-            <p class="text-gray-600 select-none mb-2">Download and read helpful study materials:</p>
-            ${
-              documents.length
-                ? documents.join('')
-                : '<p class="text-gray-600 select-none">No documents uploaded yet.</p>'
-            }
+            <p class="text-gray-600 select-none mb-2">Document upload feature coming soon.</p>
           </div>
         </div>
 
@@ -232,13 +219,27 @@
             View Exam Quiz Questions
           </button>
           <div class="content hidden mt-4">
-            <p class="text-gray-600 select-none">Test your knowledge with exam quiz questions.</p>
             ${quizContent}
           </div>
         </div>
       `;
-
       container.appendChild(section);
+    }
+
+    // === STUDY & EXAM TIPS SECTION ===
+    // Fetch tips videos from a dedicated folder: "tips-videos"
+    const tipsLinks = await fetchVideoLinks('tips-videos');
+    const tipsContainer = document.getElementById('tips-videos-container');
+    if (tipsLinks.length) {
+      tipsContainer.innerHTML = tipsLinks.map(link => `
+        <div class="video-box">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/${new URL(link).searchParams.get('v')}" allowfullscreen></iframe>
+          </div>
+        </div>
+      `).join('');
+    } else {
+      tipsContainer.innerHTML = `<p class="text-gray-600 select-none">No tips videos currently available.</p>`;
     }
   }
 
