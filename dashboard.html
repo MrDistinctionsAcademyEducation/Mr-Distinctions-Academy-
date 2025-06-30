@@ -9,7 +9,6 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      margin: 0;
       background: linear-gradient(135deg, #c3bef0 0%, #b1dbf0 50%, #f3d2fd 100%);
       min-height: 100vh;
       overflow-x: hidden;
@@ -23,8 +22,6 @@
       display: none !important;
       max-height: 0 !important;
       opacity: 0;
-      padding: 0 !important;
-      margin: 0 !important;
       pointer-events: none;
     }
     .visible {
@@ -84,6 +81,7 @@
   </header>
   <main class="flex-grow container mx-auto px-4 py-10 max-w-screen-xl">
     <div id="subjects-container" class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16"></div>
+
     <section class="bg-white rounded-3xl shadow-2xl p-8 mt-12">
       <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-3 select-none">STUDY &amp; EXAM TIPS VIDEOS</h2>
       <button id="tipsBtn" onclick="toggleTips()" class="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-7 py-3 rounded-lg shadow-lg transition active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400">
@@ -139,6 +137,7 @@
     }
   }
 
+  // ✅ FIXED: Support YouTube EMBED links
   async function fetchVideoLinks(subject) {
     const path = `${subject.toLowerCase().replace(/ /g, '-')}/videos`;
     const files = await fetchFromGitHub(path, file => file.name.endsWith('.html'));
@@ -147,9 +146,8 @@
       try {
         const res = await fetch(file.download_url);
         const text = await res.text();
-        // updated regex to match youtube.com and youtu.be links:
-        const match = text.match(/https?:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+/);
-        if (match) links.push(match[0]);
+        const match = text.match(/https:\/\/www\.youtube\.com\/embed\/([\w-]+)/);
+        if (match) links.push(`https://www.youtube.com/embed/${match[1]}`);
       } catch {}
     }
     return links;
@@ -177,22 +175,19 @@
       const section = document.createElement('section');
       section.className = 'bg-white rounded-3xl shadow-2xl p-6';
 
-      // Fetch videos dynamically from GitHub
       const videoLinks = await fetchVideoLinks(subject);
       const videosContent = videoLinks.length
         ? videoLinks.map(link => `
             <div class="video-box">
               <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/${new URL(link).searchParams.get('v')}" allowfullscreen></iframe>
+                <iframe src="${link}" allowfullscreen></iframe>
               </div>
             </div>
           `).join('')
         : `<p class="text-gray-600 select-none">Video content coming soon.</p>`;
 
-      // Fetch documents dynamically
       const documents = await fetchDocuments(subject);
 
-      // Fetch quizzes dynamically except English Language (hardcoded)
       let quizContent = '';
       if (subject === 'English Language') {
         quizContent = `<a href="https://mrdistinctionsacademyeducation.github.io/Mr-Distinctions-Academy-/quiz/english-quiz.html" class="text-green-600 underline text-sm block mt-2 hover:text-green-800">Start Now</a>`;
