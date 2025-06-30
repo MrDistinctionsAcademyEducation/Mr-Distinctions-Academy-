@@ -58,14 +58,6 @@
       border: none;
       border-radius: 1rem;
     }
-    .video-title {
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: #dc2626;
-      text-align: center;
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
-    }
     .document-link {
       display: flex;
       align-items: center;
@@ -81,10 +73,6 @@
     .document-link:hover {
       background-color: #e2e8f0;
       transform: translateX(2px);
-    }
-    .document-icon {
-      width: 24px;
-      height: 24px;
     }
   </style>
 </head>
@@ -123,6 +111,18 @@
   const repo = 'Mr-Distinctions-Academy-';
   const container = document.getElementById('subjects-container');
 
+  const subjectVideos = {
+    "Physics": [
+      "https://www.youtube.com/watch?v=aq0VibhvuSQ",
+      "https://www.youtube.com/watch?v=taYezUWpPTc",
+      "https://www.youtube.com/watch?v=JSJQZDrL-H0"
+    ],
+    "English Language": [],
+    "Mathematics": [],
+    "Chemistry": [],
+    "Biology": []
+  };
+
   function handleLogout() {
     window.location.href = 'index.html';
   }
@@ -151,21 +151,6 @@
     }
   }
 
-  async function fetchVideoLinks(subject) {
-    const path = `${subject.toLowerCase().replace(/ /g, '-')}/videos`;
-    const files = await fetchFromGitHub(path, file => file.name.endsWith('.html'));
-    const links = [];
-    for (const file of files) {
-      try {
-        const res = await fetch(file.download_url);
-        const text = await res.text();
-        const match = text.match(/https?:\/\/(www\.)?youtube\.com\/watch\?v=[\w-]+/);
-        if (match) links.push(match[0]);
-      } catch {}
-    }
-    return links;
-  }
-
   async function fetchDocuments(subject) {
     const path = `${subject.toLowerCase().replace(/ /g, '-')}/documents`;
     const files = await fetchFromGitHub(path, file => file.name.endsWith('.pdf') || file.name.endsWith('.docx'));
@@ -188,23 +173,22 @@
       const section = document.createElement('section');
       section.className = 'bg-white rounded-3xl shadow-2xl p-6';
 
-      const videoLinks = await fetchVideoLinks(subject);
+      // Videos
+      const videoLinks = subjectVideos[subject] || [];
       const videosContent = videoLinks.length
-        ? videoLinks
-            .map(
-              link => `
-        <div class="video-box">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/${new URL(link).searchParams.get('v')}" allowfullscreen></iframe>
-          </div>
-        </div>`
-            )
-            .join('')
+        ? videoLinks.map(link => `
+            <div class="video-box">
+              <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/${new URL(link).searchParams.get('v')}" allowfullscreen></iframe>
+              </div>
+            </div>
+          `).join('')
         : `<p class="text-gray-600 select-none">Video content coming soon.</p>`;
 
+      // Documents
       const documents = await fetchDocuments(subject);
 
-      // English quiz hardcoded; others dynamic
+      // Quizzes
       let quizContent = '';
       if (subject === 'English Language') {
         quizContent = `<a href="https://mrdistinctionsacademyeducation.github.io/Mr-Distinctions-Academy-/quiz/english-quiz.html" class="text-green-600 underline text-sm block mt-2 hover:text-green-800">Start Now</a>`;
@@ -215,6 +199,7 @@
           : '<p class="text-gray-600 select-none">No quizzes available yet.</p>';
       }
 
+      // Combine
       section.innerHTML = `
         <h2 class="text-3xl font-bold text-red-700 mb-6 border-b border-red-300 pb-2 select-none">${subject}</h2>
 
