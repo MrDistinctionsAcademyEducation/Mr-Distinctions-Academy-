@@ -1,11 +1,96 @@
-<iframe class="w-full aspect-video mb-4 rounded-xl border-2 border-blue-400 shadow-md"
-  src="https://www.youtube.com/embed/aq0VibhvuSQ"
-  title="Newton's First Law" allowfullscreen></iframe>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Physics Videos - Mr Distinctions Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #f0f4ff;
+      font-family: 'Poppins', sans-serif;
+    }
 
-<iframe class="w-full aspect-video mb-4 rounded-xl border-2 border-blue-400 shadow-md"
-  src="https://www.youtube.com/embed/taYezUWpPTc"
-  title="Newton's Second Law" allowfullscreen></iframe>
+    .video-box {
+      border: 2px solid #3b82f6; /* Tailwind blue-400 */
+      border-radius: 1rem; /* rounded-xl */
+      box-shadow: 0 4px 6px rgba(59, 130, 246, 0.4); /* blue shadow */
+      overflow: hidden;
+      max-width: 100%;
+      margin-bottom: 1.5rem;
+    }
 
-<iframe class="w-full aspect-video mb-4 rounded-xl border-2 border-blue-400 shadow-md"
-  src="https://www.youtube.com/embed/JSJQZDrL-H0"
-  title="Newton's Third Law" allowfullscreen></iframe>
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 1rem;
+    }
+
+    .video-title {
+      font-size: 0.875rem; /* text-sm */
+      font-weight: 700;
+      color: #dc2626; /* red-600 */
+      text-align: center;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body class="px-4 py-10">
+
+  <div class="max-w-4xl mx-auto">
+    
+    <!-- Newton First Law -->
+    <div class="video-box">
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/aq0VibhvuSQ?si=Be8zVeDZbbAIsQUy"
+          title="Newton First Law"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <p class="video-title">NEWTON FIRST LAW OF MOTION MADE BY MR DISTINCTIONS</p>
+    </div>
+
+    <!-- Newton Second Law -->
+    <div class="video-box">
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/taYezUWpPTc"
+          title="Newton Second Law"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <p class="video-title">NEWTON SECOND LAW OF MOTION MADE BY MR DISTINCTIONS</p>
+    </div>
+
+    <!-- Newton Third Law -->
+    <div class="video-box">
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/JSJQZDrL-H0?si=UJ_cSsH2t5ncoVgJ"
+          title="Newton Third Law"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <p class="video-title">NEWTON THIRD LAW OF MOTION MADE BY MR DISTINCTIONS</p>
+    </div>
+
+  </div>
+
+</body>
+</html>
