@@ -82,6 +82,7 @@
 
 <script>
   const subjects = ['EnglishLanguage', 'Mathematics', 'Chemistry', 'Physics', 'Biology'];
+  const baseURL = 'https://kaundapascal.github.io/mrdistinctions-academy';
 
   function toggleContent(button) {
     const content = button.nextElementSibling;
@@ -96,7 +97,7 @@
   }
 
   async function loadSectionContent(subject, type) {
-    const url = `${subject}/${type}.html`;
+    const url = `${baseURL}/${subject}/${type}.html`;
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error('File not found');
