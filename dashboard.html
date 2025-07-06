@@ -32,6 +32,12 @@
       padding-bottom: 1rem;
       pointer-events: auto;
     }
+    iframe {
+      border-radius: 1rem;
+      width: 100%;
+      height: 315px;
+      margin-bottom: 1rem;
+    }
     .document-link {
       display: block;
       margin-bottom: 0.5rem;
@@ -46,17 +52,6 @@
     }
     .document-link:hover {
       background: #e0e7ff;
-    }
-    .quiz-button {
-      background-color: #10b981;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-    .quiz-button:hover {
-      background-color: #059669;
     }
   </style>
 </head>
@@ -76,7 +71,7 @@
         View Tips Videos
       </button>
       <div id="tipsContent" class="hidden">
-        <p class="text-gray-600 mb-4">Loading tips...</p>
+        <p class="text-gray-600">No tips available yet. Stay tuned!</p>
       </div>
     </section>
   </main>
@@ -94,22 +89,8 @@
     content.classList.toggle('visible');
   }
 
-  async function toggleTips() {
+  function toggleTips() {
     const tipsContent = document.getElementById('tipsContent');
-
-    if (tipsContent.classList.contains('hidden')) {
-      if (!tipsContent.dataset.loaded) {
-        try {
-          const response = await fetch('study-tips.html');
-          const content = await response.text();
-          tipsContent.innerHTML = content;
-          tipsContent.dataset.loaded = 'true';
-        } catch {
-          tipsContent.innerHTML = '<p class="text-sm text-red-500 italic">Failed to load study tips.</p>';
-        }
-      }
-    }
-
     tipsContent.classList.toggle('hidden');
     tipsContent.classList.toggle('visible');
   }
@@ -119,69 +100,9 @@
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error('File not found');
-      let text = await response.text();
-
-      const wrapper = document.createElement('div');
-      wrapper.innerHTML = text;
-
-      if (type === 'documents') {
-        const heading = document.createElement('h4');
-        heading.className = 'text-lg font-semibold text-gray-700 mb-3';
-        heading.textContent = '📘 Exam Made Easy Pamphlets';
-        wrapper.prepend(heading);
-
-        const links = wrapper.querySelectorAll('a');
-        links.forEach(link => {
-          link.setAttribute('target', '_blank');
-        });
-
-        return wrapper.innerHTML;
-      }
-
-      if (type === 'quizzes') {
-        const quizLinks = wrapper.querySelectorAll('a');
-        const quizList = document.createElement('div');
-
-        if (quizLinks.length === 0) {
-          return `<p class="text-sm text-gray-400 italic">No quizzes available yet.</p>`;
-        }
-
-        quizLinks.forEach(link => {
-          const quizName = link.textContent.trim();
-          const quizURL = link.getAttribute('href');
-
-          const div = document.createElement('div');
-          div.className = 'mb-4 p-4 bg-gray-50 rounded shadow';
-
-          div.innerHTML = `
-            <p class="text-md font-medium text-gray-800 mb-2">${quizName}</p>
-            <button class="quiz-button" onclick="loadQuiz('${subject}', '${quizURL}', this)">Start Now</button>
-            <div class="quiz-placeholder mt-4 text-sm text-gray-600"></div>
-          `;
-
-          quizList.appendChild(div);
-        });
-
-        return quizList.innerHTML;
-      }
-
-      return wrapper.innerHTML;
+      return await response.text();
     } catch {
       return `<p class="text-sm text-gray-400 italic">No ${type} available yet.</p>`;
-    }
-  }
-
-  async function loadQuiz(subject, quizFile, button) {
-    const placeholder = button.nextElementSibling;
-    placeholder.innerHTML = 'Loading quiz...';
-
-    try {
-      const res = await fetch(`${subject}/${quizFile}`);
-      if (!res.ok) throw new Error('Failed to load quiz');
-      const quizHTML = await res.text();
-      placeholder.innerHTML = quizHTML;
-    } catch {
-      placeholder.innerHTML = '<p class="text-red-500">Could not load this quiz.</p>';
     }
   }
 
