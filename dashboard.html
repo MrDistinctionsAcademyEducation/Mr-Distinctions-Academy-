@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Distinctions Academy</title>
+    <style>
+        :root {
+            --english: #FF6B6B;
+            --maths: #4ECDC4;
+            --chemistry: #FFBE0B;
+            --physics: #8338EC;
+            --biology: #06D6A0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .subject-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .subject-header {
+            padding: 20px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .english .subject-header { background-color: var(--english); }
+        .maths .subject-header { background-color: var(--maths); }
+        .chemistry .subject-header { background-color: var(--chemistry); }
+        .physics .subject-header { background-color: var(--physics); }
+        .biology .subject-header { background-color: var(--biology); }
+        
+        .content-buttons {
+            padding: 20px;
+            background-color: white;
+            display: grid;
+            gap: 15px;
+        }
+        
+        .content-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .content-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .english .content-btn { background-color: var(--english); color: white; }
+        .maths .content-btn { background-color: var(--maths); color: white; }
+        .chemistry .content-btn { background-color: var(--chemistry); color: white; }
+        .physics .content-btn { background-color: var(--physics); color: white; }
+        .biology .content-btn { background-color: var(--biology); color: white; }
+        
+        .content-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Mr. Distinctions Academy</h1>
+        <p>Your gateway to academic excellence</p>
+    </div>
+    
+    <div class="dashboard">
+        <!-- English Card -->
+        <div class="subject-card english">
+            <div class="subject-header">
+                English Language
+            </div>
+            <div class="content-buttons">
+                <button class="content-btn" onclick="loadContent('English', 'Videos')">
+                    <i class="fas fa-play"></i> Videos
+                </button>
+                <button class="content-btn" onclick="loadContent('English', 'Documents')">
+                    <i class="fas fa-file-alt"></i> Documents
+                </button>
+                <button class="content-btn" onclick="loadContent('English', 'Quizzes')">
+                    <i class="fas fa-question-circle"></i> Exam Questions & Quizzes
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mathematics Card -->
+        <div class="subject-card maths">
+            <div class="subject-header">
+                Mathematics
+            </div>
+            <div class="content-buttons">
+                <button class="content-btn" onclick="loadContent('Mathematics', 'Videos')">
+                    <i class="fas fa-play"></i> Videos
+                </button>
+                <button class="content-btn" onclick="loadContent('Mathematics', 'Documents')">
+                    <i class="fas fa-file-alt"></i> Documents
+                </button>
+                <button class="content-btn" onclick="loadContent('Mathematics', 'Quizzes')">
+                    <i class="fas fa-question-circle"></i> Exam Questions & Quizzes
+                </button>
+            </div>
+        </div>
+        
+        <!-- Chemistry Card -->
+        <div class="subject-card chemistry">
+            <div class="subject-header">
+                Chemistry
+            </div>
+            <div class="content-buttons">
+                <button class="content-btn" onclick="loadContent('Chemistry', 'Videos')">
+                    <i class="fas fa-play"></i> Videos
+                </button>
+                <button class="content-btn" onclick="loadContent('Chemistry', 'Documents')">
+                    <i class="fas fa-file-alt"></i> Documents
+                </button>
+                <button class="content-btn" onclick="loadContent('Chemistry', 'Quizzes')">
+                    <i class="fas fa-question-circle"></i> Exam Questions & Quizzes
+                </button>
+            </div>
+        </div>
+        
+        <!-- Physics Card -->
+        <div class="subject-card physics">
+            <div class="subject-header">
+                Physics
+            </div>
+            <div class="content-buttons">
+                <button class="content-btn" onclick="loadContent('Physics', 'Videos')">
+                    <i class="fas fa-play"></i> Videos
+                </button>
+                <button class="content-btn" onclick="loadContent('Physics', 'Documents')">
+                    <i class="fas fa-file-alt"></i> Documents
+                </button>
+                <button class="content-btn" onclick="loadContent('Physics', 'Quizzes')">
+                    <i class="fas fa-question-circle"></i> Exam Questions & Quizzes
+                </button>
+            </div>
+        </div>
+        
+        <!-- Biology Card -->
+        <div class="subject-card biology">
+            <div class="subject-header">
+                Biology
+            </div>
+            <div class="content-buttons">
+                <button class="content-btn" onclick="loadContent('Biology', 'Videos')">
+                    <i class="fas fa-play"></i> Videos
+                </button>
+                <button class="content-btn" onclick="loadContent('Biology', 'Documents')">
+                    <i class="fas fa-file-alt"></i> Documents
+                </button>
+                <button class="content-btn" onclick="loadContent('Biology', 'Quizzes')">
+                    <i class="fas fa-question-circle"></i> Exam Questions & Quizzes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // This function would connect to your GitHub repo and fetch relevant content
+        async function loadContent(subject, contentType) {
+            // In a real implementation, you would:
+            // 1. Make an API call to GitHub to fetch your repository contents
+            // 2. Filter files based on subject and contentType
+            // 3. Display the results in a modal or new page
+            
+            console.log(`Loading ${contentType} for ${subject}`);
+            
+            // Example structure for GitHub API integration:
+            try {
+                const repoUrl = 'https://api.github.com/repos/your-username/your-repo/contents';
+                const response = await fetch(repoUrl);
+                const files = await response.json();
+                
+                // Filter files based on naming conventions
+                const relevantFiles = files.filter(file => {
+                    const lowerName = file.name.toLowerCase();
+                    const lowerSubject = subject.toLowerCase();
+                    const lowerType = contentType.toLowerCase();
+                    
+                    return lowerName.includes(lowerSubject) && 
+                           (lowerName.includes(lowerType) || 
+                            (lowerType === 'quizzes' && 
+                             (lowerName.includes('exam') || lowerName.includes('quiz'))));
+                });
+                
+                // Display the files to the user
+                if (relevantFiles.length > 0) {
+                    alert(`Found ${relevantFiles.length} resources for ${subject} ${contentType}.`);
+                    // In a real implementation, you would show these in a nice UI
+                } else {
+                    alert(`No ${contentType} found for ${subject}. Check your repository.`);
+                }
+            } catch (error) {
+                console.error('Error fetching from GitHub:', error);
+                alert('Could not connect to GitHub repository. Please try again later.');
+            }
+        }
+    </script>
+</body>
+</html>
