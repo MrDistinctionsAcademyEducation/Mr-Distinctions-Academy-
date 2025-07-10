@@ -2,167 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mr. Distinctions Academy</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mr Distinctions Academy - Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --english: #FF6B6B;
-      --maths: #4ECDC4;
-      --chemistry: #FFBE0B;
-      --physics: #8338EC;
-      --biology: #06D6A0;
-    }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f7fa;
-      margin: 0;
-      padding: 20px;
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .header h1 {
-      color: #333;
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-    .header p {
-      color: #666;
-      font-size: 1.2rem;
-    }
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-      max-width: 1400px;
-      margin: 0 auto;
+      font-family: 'Poppins', sans-serif;
     }
     .subject-card {
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
+      transition: transform 0.2s ease;
     }
     .subject-card:hover {
-      transform: translateY(-5px);
-    }
-    .subject-header {
-      padding: 20px;
-      color: white;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-    .english .subject-header { background-color: var(--english); }
-    .maths .subject-header { background-color: var(--maths); }
-    .chemistry .subject-header { background-color: var(--chemistry); }
-    .physics .subject-header { background-color: var(--physics); }
-    .biology .subject-header { background-color: var(--biology); }
-    .content-buttons {
-      padding: 20px;
-      background-color: white;
-      display: grid;
-      gap: 15px;
-    }
-    .content-btn {
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-    .content-btn:hover {
       transform: scale(1.03);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    .english .content-btn { background-color: var(--english); color: white; }
-    .maths .content-btn { background-color: var(--maths); color: white; }
-    .chemistry .content-btn { background-color: var(--chemistry); color: white; }
-    .physics .content-btn { background-color: var(--physics); color: white; }
-    .biology .content-btn { background-color: var(--biology); color: white; }
-    .content-btn i {
-      margin-right: 10px;
-      font-size: 1.2rem;
-    }
-    #output {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-    #output ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    #output li {
-      margin-bottom: 10px;
-    }
-    #output a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
     }
   </style>
 </head>
-<body>
-  <div class="header">
-    <h1>Mr. Distinctions Academy</h1>
-    <p>Your gateway to academic excellence</p>
+<body class="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen p-4">
+  <div class="text-center mb-10">
+    <h1 class="text-4xl font-bold text-purple-800">📚 Mr Distinctions Academy</h1>
+    <p class="text-lg text-gray-700 mt-2">Explore learning materials by subject</p>
   </div>
 
-  <div class="dashboard">
-    <!-- Repeat subject cards for each subject -->
-    <!-- Sample: Maths -->
-    <div class="subject-card maths">
-      <div class="subject-header">Mathematics</div>
-      <div class="content-buttons">
-        <button class="content-btn" onclick="loadContent('Mathematics', 'Videos')"><i class="fas fa-play"></i> Videos</button>
-        <button class="content-btn" onclick="loadContent('Mathematics', 'Documents')"><i class="fas fa-file-alt"></i> Documents</button>
-        <button class="content-btn" onclick="loadContent('Mathematics', 'Quizzes')"><i class="fas fa-question-circle"></i> Exam Questions & Quizzes</button>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+    <!-- SUBJECT CARD TEMPLATE -->
+    <!-- Repeat this block for each subject -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 subject-card border-l-8 border-blue-400">
+      <h2 class="text-2xl font-semibold text-blue-600 mb-4">📘 English Language</h2>
+      <div class="space-x-3">
+        <a href="videos.html?subject=english" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Videos</a>
+        <a href="documents.html?subject=english" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Documents</a>
+        <a href="quizzes.html?subject=english" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Exam Questions</a>
       </div>
     </div>
-    <!-- Add more subjects the same way: English, Chemistry, etc. -->
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 subject-card border-l-8 border-yellow-400">
+      <h2 class="text-2xl font-semibold text-yellow-600 mb-4">🧮 Mathematics</h2>
+      <div class="space-x-3">
+        <a href="videos.html?subject=mathematics" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Videos</a>
+        <a href="documents.html?subject=mathematics" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Documents</a>
+        <a href="quizzes.html?subject=mathematics" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Exam Questions</a>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 subject-card border-l-8 border-red-400">
+      <h2 class="text-2xl font-semibold text-red-600 mb-4">🧪 Chemistry</h2>
+      <div class="space-x-3">
+        <a href="videos.html?subject=chemistry" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Videos</a>
+        <a href="documents.html?subject=chemistry" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Documents</a>
+        <a href="quizzes.html?subject=chemistry" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Exam Questions</a>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 subject-card border-l-8 border-indigo-400">
+      <h2 class="text-2xl font-semibold text-indigo-600 mb-4">🔬 Physics</h2>
+      <div class="space-x-3">
+        <a href="videos.html?subject=physics" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Videos</a>
+        <a href="documents.html?subject=physics" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Documents</a>
+        <a href="quizzes.html?subject=physics" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Exam Questions</a>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 subject-card border-l-8 border-teal-400">
+      <h2 class="text-2xl font-semibold text-teal-600 mb-4">🧬 Biology</h2>
+      <div class="space-x-3">
+        <a href="videos.html?subject=biology" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Videos</a>
+        <a href="documents.html?subject=biology" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Documents</a>
+        <a href="quizzes.html?subject=biology" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Exam Questions</a>
+      </div>
+    </div>
   </div>
 
-  <div id="output"></div>
-
-  <script>
-    async function loadContent(subject, contentType) {
-      const output = document.getElementById('output');
-      output.innerHTML = `<p>Loading ${contentType} for ${subject}...</p>`;
-
-      try {
-        const repoUrl = 'https://api.github.com/repos/kaundapascal/mrdistinctions-academy/contents/';
-        const response = await fetch(repoUrl);
-        const files = await response.json();
-
-        const relevantFiles = files.filter(file => {
-          const name = file.name.toLowerCase();
-          return name.includes(subject.toLowerCase()) &&
-            (name.includes(contentType.toLowerCase()) ||
-             (contentType === 'Quizzes' && (name.includes('quiz') || name.includes('exam'))));
-        });
-
-        if (relevantFiles.length === 0) {
-          output.innerHTML = `<p>No ${contentType} found for ${subject}.</p>`;
-          return;
-        }
-
-        output.innerHTML = `<h3>${subject} - ${contentType}:</h3><ul>` +
-          relevantFiles.map(file => `<li><a href="${file.html_url}" target="_blank">${file.name}</a></li>`).join('') +
-          `</ul>`;
-      } catch (err) {
-        console.error(err);
-        output.innerHTML = `<p style="color:red;">Could not connect to GitHub repository. Please check your connection or try again later.</p>`;
-      }
-    }
-  </script>
+  <footer class="text-center mt-12 text-sm text-gray-600">
+    &copy; 2025 Mr Distinctions Academy. Powered by GitHub Pages.
+  </footer>
 </body>
 </html>
